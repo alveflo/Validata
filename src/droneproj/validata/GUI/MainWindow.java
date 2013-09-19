@@ -44,7 +44,7 @@ public class MainWindow extends javax.swing.JFrame {
         runButton = new javax.swing.JButton();
         stopButton = new javax.swing.JButton();
         plotTabbedPane = new javax.swing.JTabbedPane();
-        jTabbedPane2 = new javax.swing.JTabbedPane();
+        plotPanel1 = new javax.swing.JTabbedPane();
         codePanel = new javax.swing.JPanel(new BorderLayout());
         outputLabel = new javax.swing.JLabel();
         codeTextScrollPane = new org.fife.ui.rtextarea.RTextScrollPane(codeTextArea);
@@ -89,7 +89,7 @@ public class MainWindow extends javax.swing.JFrame {
         );
 
         plotTabbedPane.setName("plotTabPanel"); // NOI18N
-        plotTabbedPane.addTab("tab1", jTabbedPane2);
+        plotTabbedPane.addTab("tab1", plotPanel1);
 
         outputLabel.setText("Output");
 
@@ -164,6 +164,8 @@ public class MainWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.outputTextArea.setText("");
         scriptInterpreter.runScript(this.codeTextArea.getText());
+        // Skapa plottar -> Returna paneler
+        plotTabbedPane.addTab("Test", codePanel);
     }//GEN-LAST:event_runButtonActionPerformed
 
     /**
@@ -209,9 +211,9 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JLabel outputLabel;
     private javax.swing.JTextArea outputTextArea;
+    private javax.swing.JTabbedPane plotPanel1;
     private javax.swing.JTabbedPane plotTabbedPane;
     private javax.swing.JButton runButton;
     private javax.swing.JButton stopButton;
