@@ -95,7 +95,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         codeTextScrollPane.setFoldIndicatorEnabled(true);
 
-        codeTextArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_GROOVY);
+        codeTextArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVASCRIPT);
         codeTextArea.setCodeFoldingEnabled(true);
         codeTextArea.setAntiAliasingEnabled(true);
         codeTextArea.setColumns(20);
@@ -110,15 +110,12 @@ public class MainWindow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(outputLabel)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, codePanelLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(codeTextScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(codeTextScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         codePanelLayout.setVerticalGroup(
             codePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(codePanelLayout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
-                .addComponent(codeTextScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(codeTextScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(outputLabel))
         );
@@ -226,12 +223,9 @@ public class MainWindow extends javax.swing.JFrame {
      */
     private void initCodeTextArea()
     {
-        codeTextArea.append("import droneproj.validata.utils.GroovyInterface;\n\n");
-        codeTextArea.append("public class test implements GroovyInterface\n");
+        codeTextArea.append("function main(API)\n");
         codeTextArea.append("{\n");
-        codeTextArea.append("\tpublic void run(Object API) {\n");
-        codeTextArea.append("\t\tSystem.out.println(\"Hello world!\");\n");
-        codeTextArea.append("\t}\n");
+        codeTextArea.append("\tprintln(\"Hello world!\")\n");
         codeTextArea.append("}");
     }
 }
