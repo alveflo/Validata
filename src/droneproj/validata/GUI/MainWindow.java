@@ -4,9 +4,13 @@
  */
 package droneproj.validata.GUI;
 import droneproj.validata.interpreter.ScriptInterpreter;
+import droneproj.validata.parsing.EnclosureList;
+import droneproj.validata.parsing.SinglepointList;
+import droneproj.validata.plot.Plot2D;
 import droneproj.validata.systemrerouter.*;
 import java.awt.BorderLayout;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import org.fife.ui.rsyntaxtextarea.*;
 import javax.swing.plaf.*;
 import org.fife.ui.rtextarea.*;
@@ -38,15 +42,13 @@ public class MainWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        outputTextArea = new javax.swing.JTextArea();
         jPanel1 = new javax.swing.JPanel();
         runButton = new javax.swing.JButton();
         stopButton = new javax.swing.JButton();
         plotTabbedPane = new javax.swing.JTabbedPane();
-        plotPanel1 = new javax.swing.JTabbedPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        outputTextArea = new javax.swing.JTextArea();
         codePanel = new javax.swing.JPanel(new BorderLayout());
-        outputLabel = new javax.swing.JLabel();
         codeTextScrollPane = new org.fife.ui.rtextarea.RTextScrollPane(codeTextArea);
         codeTextArea = new org.fife.ui.rsyntaxtextarea.RSyntaxTextArea();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -54,13 +56,6 @@ public class MainWindow extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        outputTextArea.setEditable(false);
-        outputTextArea.setColumns(20);
-        outputTextArea.setLineWrap(true);
-        outputTextArea.setRows(5);
-        outputTextArea.setName("outputTextArea"); // NOI18N
-        jScrollPane1.setViewportView(outputTextArea);
 
         runButton.setText("RUN");
         runButton.addActionListener(new java.awt.event.ActionListener() {
@@ -89,9 +84,15 @@ public class MainWindow extends javax.swing.JFrame {
         );
 
         plotTabbedPane.setName("plotTabPanel"); // NOI18N
-        plotTabbedPane.addTab("tab1", plotPanel1);
 
-        outputLabel.setText("Output");
+        outputTextArea.setEditable(false);
+        outputTextArea.setColumns(20);
+        outputTextArea.setLineWrap(true);
+        outputTextArea.setRows(5);
+        outputTextArea.setName("outputTextArea"); // NOI18N
+        jScrollPane1.setViewportView(outputTextArea);
+
+        plotTabbedPane.addTab("Console", jScrollPane1);
 
         codeTextScrollPane.setFoldIndicatorEnabled(true);
 
@@ -106,18 +107,11 @@ public class MainWindow extends javax.swing.JFrame {
         codePanel.setLayout(codePanelLayout);
         codePanelLayout.setHorizontalGroup(
             codePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(codePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(outputLabel)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(codeTextScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(codeTextScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
         );
         codePanelLayout.setVerticalGroup(
             codePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(codePanelLayout.createSequentialGroup()
-                .addComponent(codeTextScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(outputLabel))
+            .addComponent(codeTextScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jMenu1.setText("File");
@@ -135,7 +129,6 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(codePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -147,13 +140,11 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(plotTabbedPane)
+                    .addComponent(plotTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(codePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(codePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -163,9 +154,30 @@ public class MainWindow extends javax.swing.JFrame {
     private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runButtonActionPerformed
         // TODO add your handling code here:
         this.outputTextArea.setText("");
+
+        for (int i=2;i<this.plotTabbedPane.getTabCount();i++)
+        {
+            this.plotTabbedPane.remove(i);
+        }
+        
         scriptInterpreter.runScript(this.codeTextArea.getText());
-        // Skapa plottar -> Returna paneler
-        plotTabbedPane.addTab("Test", codePanel);
+        ArrayList<Double> test1 = new ArrayList<Double>();
+        ArrayList<Double> test2 = new ArrayList<Double>();
+        ArrayList<Double> test3 = new ArrayList<Double>();
+        ArrayList<Double> time = new ArrayList<Double>();
+        for (int i = 0;i<200;i++)
+        {
+            test1.add((double)10 + i);
+            test2.add((double)i);
+            test3.add((double)5 + i);
+            time.add((double)i/10);
+        }
+        
+        EnclosureList el = new EnclosureList("X",time,test2,test1);
+        SinglepointList sl = new SinglepointList(time,test3);
+        SinglepointList[] sllist = {sl};
+        Plot2D plot = new Plot2D(el.getName(), el, sllist);
+        plotTabbedPane.addTab(plot.getTitle(), plot.getPanel());
     }//GEN-LAST:event_runButtonActionPerformed
 
     /**
@@ -211,9 +223,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel outputLabel;
     private javax.swing.JTextArea outputTextArea;
-    private javax.swing.JTabbedPane plotPanel1;
     private javax.swing.JTabbedPane plotTabbedPane;
     private javax.swing.JButton runButton;
     private javax.swing.JButton stopButton;
@@ -230,4 +240,5 @@ public class MainWindow extends javax.swing.JFrame {
         codeTextArea.append("\tprintln(\"Hello world!\")\n");
         codeTextArea.append("}");
     }
+
 }

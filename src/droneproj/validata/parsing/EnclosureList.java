@@ -24,7 +24,7 @@ public class EnclosureList {
         max = new ArrayList<>();
     }
     
-    public EnclosureList(ArrayList<Double> time,ArrayList<Double> min,ArrayList<Double> max)
+    public EnclosureList(String name, ArrayList<Double> time,ArrayList<Double> min,ArrayList<Double> max)
     {
         this.name = name;
         this.time = time;
