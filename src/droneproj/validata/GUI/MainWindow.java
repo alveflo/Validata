@@ -46,9 +46,9 @@ public class MainWindow extends javax.swing.JFrame {
         plotTabbedPane = new javax.swing.JTabbedPane();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         codePanel = new javax.swing.JPanel(new BorderLayout());
-        codeScrollPane = new org.fife.ui.rtextarea.RTextScrollPane(codeTextArea);
-        codeTextArea = new org.fife.ui.rsyntaxtextarea.RSyntaxTextArea();
         outputLabel = new javax.swing.JLabel();
+        codeTextScrollPane = new org.fife.ui.rtextarea.RTextScrollPane(codeTextArea);
+        codeTextArea = new org.fife.ui.rsyntaxtextarea.RSyntaxTextArea();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -91,16 +91,16 @@ public class MainWindow extends javax.swing.JFrame {
         plotTabbedPane.setName("plotTabPanel"); // NOI18N
         plotTabbedPane.addTab("tab1", jTabbedPane2);
 
-        codeScrollPane.setFoldIndicatorEnabled(true);
+        outputLabel.setText("Output");
 
-        codeTextArea.setColumns(20);
-        codeTextArea.setRows(5);
+        codeTextScrollPane.setFoldIndicatorEnabled(true);
+
         codeTextArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_GROOVY);
         codeTextArea.setCodeFoldingEnabled(true);
         codeTextArea.setAntiAliasingEnabled(true);
-        codeScrollPane.setViewportView(codeTextArea);
-
-        outputLabel.setText("Output");
+        codeTextArea.setColumns(20);
+        codeTextArea.setRows(5);
+        codeTextScrollPane.setViewportView(codeTextArea);
 
         javax.swing.GroupLayout codePanelLayout = new javax.swing.GroupLayout(codePanel);
         codePanel.setLayout(codePanelLayout);
@@ -110,15 +110,16 @@ public class MainWindow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(outputLabel)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(codePanelLayout.createSequentialGroup()
-                .addComponent(codeScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 434, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, codePanelLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(codeTextScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         codePanelLayout.setVerticalGroup(
             codePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(codePanelLayout.createSequentialGroup()
-                .addComponent(codeScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap(19, Short.MAX_VALUE)
+                .addComponent(codeTextScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(outputLabel))
         );
 
@@ -137,7 +138,7 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(codePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -204,8 +205,8 @@ public class MainWindow extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel codePanel;
-    private org.fife.ui.rtextarea.RTextScrollPane codeScrollPane;
     private org.fife.ui.rsyntaxtextarea.RSyntaxTextArea codeTextArea;
+    private org.fife.ui.rtextarea.RTextScrollPane codeTextScrollPane;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;

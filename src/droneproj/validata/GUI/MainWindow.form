@@ -43,7 +43,7 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jScrollPane1" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" pref="434" max="32767" attributes="0"/>
                   <Component id="jPanel1" max="32767" attributes="0"/>
                   <Component id="codePanel" max="32767" attributes="0"/>
               </Group>
@@ -156,32 +156,38 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
+              <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="outputLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
-              <Group type="102" alignment="0" attributes="0">
-                  <Component id="codeScrollPane" min="-2" pref="434" max="-2" attributes="0"/>
+              <Group type="102" alignment="1" attributes="0">
                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  <Component id="codeTextScrollPane" min="-2" pref="397" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="codeScrollPane" pref="294" max="32767" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace pref="19" max="32767" attributes="0"/>
+                  <Component id="codeTextScrollPane" min="-2" pref="270" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="outputLabel" min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Container class="org.fife.ui.rtextarea.RTextScrollPane" name="codeScrollPane">
+        <Component class="javax.swing.JLabel" name="outputLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Output"/>
+          </Properties>
+        </Component>
+        <Container class="org.fife.ui.rtextarea.RTextScrollPane" name="codeTextScrollPane">
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new org.fife.ui.rtextarea.RTextScrollPane(codeTextArea)"/>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="codeScrollPane.setFoldIndicatorEnabled(true);"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="codeTextScrollPane.setFoldIndicatorEnabled(true);"/>
           </AuxValues>
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
@@ -192,16 +198,11 @@
                 <Property name="rows" type="int" value="5"/>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="codeTextArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_GROOVY);&#xa;codeTextArea.setCodeFoldingEnabled(true);&#xa;codeTextArea.setAntiAliasingEnabled(true);"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="codeTextArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_GROOVY);&#xa;codeTextArea.setCodeFoldingEnabled(true);&#xa;codeTextArea.setAntiAliasingEnabled(true);"/>
               </AuxValues>
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JLabel" name="outputLabel">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Output"/>
-          </Properties>
-        </Component>
       </SubComponents>
     </Container>
   </SubComponents>
