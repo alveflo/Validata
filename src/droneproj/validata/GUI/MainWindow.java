@@ -157,7 +157,7 @@ public class MainWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.outputTextArea.setText("");
 
-        for (int i=2;i<this.plotTabbedPane.getTabCount();i++)
+        for (int i=this.plotTabbedPane.getTabCount()-1;i>0;i--)
         {
             this.plotTabbedPane.remove(i);
         }
