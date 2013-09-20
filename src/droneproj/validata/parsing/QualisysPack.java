@@ -46,7 +46,9 @@ public class QualisysPack {
             
         }
         catch(FileNotFoundException ex)
-        {}
+        {
+            System.err.println(ex.toString());        
+        }
     }
     
     public static void main(String [] args)

@@ -39,7 +39,7 @@ public class EnclosurePack {
         }
         catch(FileNotFoundException ex)
         {
-            
+            System.err.println(ex.toString());
         }
         
     }
