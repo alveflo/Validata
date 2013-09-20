@@ -15,6 +15,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import org.fife.ui.rsyntaxtextarea.*;
 import javax.swing.plaf.*;
+import org.fife.ui.autocomplete.*;
 import org.fife.ui.rtextarea.*;
 
 /**
@@ -32,6 +33,7 @@ public class MainWindow extends javax.swing.JFrame {
         System.setErr(new PrintStream(new SystemErrRerouter(this.outputTextArea)));
         
         scriptInterpreter = ScriptInterpreter.getInstance();
+        this.initSyntaxCodeComponents();
         this.initCodeTextArea();
     }
 
@@ -51,8 +53,6 @@ public class MainWindow extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         outputTextArea = new javax.swing.JTextArea();
         codePanel = new javax.swing.JPanel(new BorderLayout());
-        codeTextScrollPane = new org.fife.ui.rtextarea.RTextScrollPane(codeTextArea);
-        codeTextArea = new org.fife.ui.rsyntaxtextarea.RSyntaxTextArea();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -96,25 +96,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         plotTabbedPane.addTab("Console", jScrollPane1);
 
-        codeTextScrollPane.setFoldIndicatorEnabled(true);
-
-        codeTextArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVASCRIPT);
-        codeTextArea.setCodeFoldingEnabled(true);
-        codeTextArea.setAntiAliasingEnabled(true);
-        codeTextArea.setColumns(20);
-        codeTextArea.setRows(5);
-        codeTextScrollPane.setViewportView(codeTextArea);
-
-        javax.swing.GroupLayout codePanelLayout = new javax.swing.GroupLayout(codePanel);
-        codePanel.setLayout(codePanelLayout);
-        codePanelLayout.setHorizontalGroup(
-            codePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(codeTextScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
-        );
-        codePanelLayout.setVerticalGroup(
-            codePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(codeTextScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        codePanel.setLayout(new java.awt.GridLayout());
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -134,7 +116,7 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(codePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(plotTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+                .addComponent(plotTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -235,8 +217,6 @@ public class MainWindow extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel codePanel;
-    private org.fife.ui.rsyntaxtextarea.RSyntaxTextArea codeTextArea;
-    private org.fife.ui.rtextarea.RTextScrollPane codeTextScrollPane;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -248,10 +228,32 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton stopButton;
     // End of variables declaration//GEN-END:variables
     private ScriptInterpreter scriptInterpreter;
-    
+    private org.fife.ui.rsyntaxtextarea.RSyntaxTextArea codeTextArea;
+    private org.fife.ui.rtextarea.RTextScrollPane codeTextScrollPane;
     /**
      * Initializing the code editor with a pre-defined template
      */
+    
+    private void initSyntaxCodeComponents()
+    {
+        
+        this.codeTextArea = new org.fife.ui.rsyntaxtextarea.RSyntaxTextArea(20,60);
+        this.codeTextArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVASCRIPT);
+        this.codeTextArea.setCodeFoldingEnabled(true);
+        this.codeTextArea.setAntiAliasingEnabled(true);
+        
+        CompletionProvider provider = createCompletionProvider();
+        
+        AutoCompletion ac = new AutoCompletion(provider);
+        ac.install(codeTextArea);
+        
+        this.codeTextScrollPane = new org.fife.ui.rtextarea.RTextScrollPane(codeTextArea);
+        this.codeTextScrollPane.setSize(codePanel.getWidth(), codePanel.getHeight());
+        this.codeTextScrollPane.setFoldIndicatorEnabled(true);
+        
+        this.codePanel.add(this.codeTextScrollPane);
+    }
+    
     private void initCodeTextArea()
     {
         codeTextArea.append("function main(API)\n");
@@ -259,5 +261,75 @@ public class MainWindow extends javax.swing.JFrame {
         codeTextArea.append("\tprintln(\"Hello world!\")\n");
         codeTextArea.append("}");
     }
+    
+    
+    private CompletionProvider createCompletionProvider() {
+
+      // A DefaultCompletionProvider is the simplest concrete implementation
+      // of CompletionProvider. This provider has no understanding of
+      // language semantics. It simply checks the text entered up to the
+      // caret position for a match against known completions. This is all
+      // that is needed in the majority of cases.
+      DefaultCompletionProvider provider = new DefaultCompletionProvider();
+
+      // Add completions for all Java keywords. A BasicCompletion is just
+      // a straightforward word completion.
+
+      provider.addCompletion(new BasicCompletion(provider, "land()",        ": Send landing command to AR.Drone"));
+      provider.addCompletion(new BasicCompletion(provider, "takeOff()", ": Send take off command to AR.Drone"));
+
+      provider.addCompletion(new BasicCompletion(provider, "abstract"));
+      provider.addCompletion(new BasicCompletion(provider, "assert"));
+      provider.addCompletion(new BasicCompletion(provider, "break"));
+      provider.addCompletion(new BasicCompletion(provider, "case"));
+      provider.addCompletion(new BasicCompletion(provider, "catch"));
+      provider.addCompletion(new BasicCompletion(provider, "class"));
+      provider.addCompletion(new BasicCompletion(provider, "const"));
+      provider.addCompletion(new BasicCompletion(provider, "continue"));
+      provider.addCompletion(new BasicCompletion(provider, "default"));
+      provider.addCompletion(new BasicCompletion(provider, "do"));
+      provider.addCompletion(new BasicCompletion(provider, "else"));
+      provider.addCompletion(new BasicCompletion(provider, "enum"));
+      provider.addCompletion(new BasicCompletion(provider, "extends"));
+      provider.addCompletion(new BasicCompletion(provider, "final"));
+      provider.addCompletion(new BasicCompletion(provider, "finally"));
+      provider.addCompletion(new BasicCompletion(provider, "for"));
+      provider.addCompletion(new BasicCompletion(provider, "goto"));
+      provider.addCompletion(new BasicCompletion(provider, "if"));
+      provider.addCompletion(new BasicCompletion(provider, "implements"));
+      provider.addCompletion(new BasicCompletion(provider, "import"));
+      provider.addCompletion(new BasicCompletion(provider, "instanceof"));
+      provider.addCompletion(new BasicCompletion(provider, "interface"));
+      provider.addCompletion(new BasicCompletion(provider, "native"));
+      provider.addCompletion(new BasicCompletion(provider, "new"));
+      provider.addCompletion(new BasicCompletion(provider, "package"));
+      provider.addCompletion(new BasicCompletion(provider, "private"));
+      provider.addCompletion(new BasicCompletion(provider, "protected"));
+      provider.addCompletion(new BasicCompletion(provider, "public"));
+      provider.addCompletion(new BasicCompletion(provider, "return"));
+      provider.addCompletion(new BasicCompletion(provider, "static"));
+      provider.addCompletion(new BasicCompletion(provider, "strictfp"));
+      provider.addCompletion(new BasicCompletion(provider, "super"));
+      provider.addCompletion(new BasicCompletion(provider, "switch"));
+      provider.addCompletion(new BasicCompletion(provider, "synchronized"));
+      provider.addCompletion(new BasicCompletion(provider, "this"));
+      provider.addCompletion(new BasicCompletion(provider, "throw"));
+      provider.addCompletion(new BasicCompletion(provider, "throws"));
+      provider.addCompletion(new BasicCompletion(provider, "transient"));
+      provider.addCompletion(new BasicCompletion(provider, "try"));
+      provider.addCompletion(new BasicCompletion(provider, "void"));
+      provider.addCompletion(new BasicCompletion(provider, "volatile"));
+      provider.addCompletion(new BasicCompletion(provider, "while"));
+
+      // Add a couple of "shorthand" completions. These completions don't
+      // require the input text to be the same thing as the replacement text.
+      provider.addCompletion(new ShorthandCompletion(provider, "sysout",
+            "System.out.println(", "System.out.println("));
+      provider.addCompletion(new ShorthandCompletion(provider, "syserr",
+            "System.err.println(", "System.err.println("));
+
+      return provider;
+
+   }
 
 }
