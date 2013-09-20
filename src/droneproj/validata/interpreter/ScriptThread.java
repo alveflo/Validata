@@ -44,7 +44,7 @@ public class ScriptThread extends Thread {
     }
     
     private void parseAPI() {
-        BufferedReader reader = null;
+/*        BufferedReader reader = null;
         try
         {
             reader = new BufferedReader(new FileReader (ScriptThread.class.getProtectionDomain().getCodeSource().getLocation().getPath() + "API.js"));
@@ -62,7 +62,7 @@ public class ScriptThread extends Thread {
         catch (Exception e)
         {
             System.err.println(e.toString());
-        }
+        }*/
     }
     
 }
