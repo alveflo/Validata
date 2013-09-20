@@ -256,15 +256,20 @@ public class MainWindow extends javax.swing.JFrame {
     
     private void initCodeTextArea()
     {
-        codeTextArea.append("function main(API)\n");
+        codeTextArea.append("/*\n");
+        codeTextArea.append(" * AR.Drone 2.0 Validation Tool\n");
+        codeTextArea.append(" * The main logic goes here. Do not remove the main()\n");
+        codeTextArea.append(" * function!\n"); 
+        codeTextArea.append(" */\n");
+        codeTextArea.append("function main()\n");
         codeTextArea.append("{\n");
         codeTextArea.append("\tprintln(\"Hello world!\")\n");
         codeTextArea.append("}");
     }
     
-    
-    private CompletionProvider createCompletionProvider() {
 
+    private CompletionProvider createCompletionProvider() {
+      //<editor-fold defaultstate="collapsed" desc="AutoCompletion">
       // A DefaultCompletionProvider is the simplest concrete implementation
       // of CompletionProvider. This provider has no understanding of
       // language semantics. It simply checks the text entered up to the
@@ -329,7 +334,7 @@ public class MainWindow extends javax.swing.JFrame {
             "System.err.println(", "System.err.println("));
 
       return provider;
-
+      //</editor-fold>
    }
 
 }
