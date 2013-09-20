@@ -4,7 +4,9 @@
  */
 package droneproj.validata.GUI;
 import droneproj.validata.interpreter.ScriptInterpreter;
+import droneproj.validata.parsing.AcumenSinglePointPack;
 import droneproj.validata.parsing.EnclosureList;
+import droneproj.validata.parsing.EnclosurePack;
 import droneproj.validata.parsing.SinglepointList;
 import droneproj.validata.plot.Plot2D;
 import droneproj.validata.systemrerouter.*;
@@ -161,7 +163,7 @@ public class MainWindow extends javax.swing.JFrame {
         }
         
         scriptInterpreter.runScript(this.codeTextArea.getText());
-        ArrayList<Double> test1 = new ArrayList<Double>();
+        /*ArrayList<Double> test1 = new ArrayList<Double>();
         ArrayList<Double> test2 = new ArrayList<Double>();
         ArrayList<Double> test3 = new ArrayList<Double>();
         ArrayList<Double> time = new ArrayList<Double>();
@@ -175,9 +177,26 @@ public class MainWindow extends javax.swing.JFrame {
         
         EnclosureList el = new EnclosureList("X",time,test2,test1);
         SinglepointList sl = new SinglepointList(time,test3);
-        SinglepointList[] sllist = {sl};
-        Plot2D plot = new Plot2D(el.getName(), el, sllist);
-        plotTabbedPane.addTab(plot.getTitle(), plot.getPanel());
+        */
+        
+        EnclosurePack eP = new EnclosurePack("C:\\Users\\Jonas\\Desktop\\Table");
+        AcumenSinglePointPack sP = new AcumenSinglePointPack("C:\\Users\\Jonas\\Desktop\\SinglepointAcumen.txt");
+        SinglepointList[] sllist = new SinglepointList[1];
+        for(EnclosureList eL: eP.getEnclousureLists())
+        {
+            for(SinglepointList sL: sP.getAcumenLists())
+            {
+                if(eL.getName().equals(sL.getName()))
+                {
+                    sllist[0] = sL;
+                    Plot2D plot = new Plot2D(eL.getName(), eL, sllist);
+                    plotTabbedPane.addTab(plot.getTitle(), plot.getPanel());
+                }
+            }
+        }
+        
+
+
     }//GEN-LAST:event_runButtonActionPerformed
 
     /**
