@@ -208,8 +208,8 @@ public class MainWindow extends javax.swing.JFrame {
         SinglepointList sl = new SinglepointList(time,test3);
         */
         
-        EnclosurePack eP = new EnclosurePack("C:\\Users\\Jonas\\Desktop\\Table");
-        AcumenSinglePointPack sP = new AcumenSinglePointPack("C:\\Users\\Jonas\\Desktop\\SinglepointAcumen.txt");
+        EnclosurePack eP = new EnclosurePack("C:\\Users\\Victor\\Desktop\\Table");
+        AcumenSinglePointPack sP = new AcumenSinglePointPack("C:\\Users\\Victor\\Desktop\\SinglepointAcumen.txt");
         SinglepointList[] sllist = new SinglepointList[1];
         for(EnclosureList eL: eP.getEnclousureLists())
         {
@@ -379,7 +379,7 @@ public class MainWindow extends javax.swing.JFrame {
     }
     
     private CompletionProvider createCompletionProvider() {
-      //<editor-fold defaultstate="collapsed" desc="AutoCompletion">
+        //<editor-fold defaultstate="collapsed" desc="AutoCompletion">
       // A DefaultCompletionProvider is the simplest concrete implementation
       // of CompletionProvider. This provider has no understanding of
       // language semantics. It simply checks the text entered up to the
