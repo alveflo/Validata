@@ -342,7 +342,8 @@ public class MainWindow extends javax.swing.JFrame {
     
     private void initSyntaxCodeComponents()
     {
-        
+        //<editor-fold defaultstate="collapsed" desc=" SyntaxCodeComponent initialization ">
+
         this.codeTextArea = new org.fife.ui.rsyntaxtextarea.RSyntaxTextArea(20,60);
         this.codeTextArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVASCRIPT);
         this.codeTextArea.setCodeFoldingEnabled(true);
@@ -359,11 +360,12 @@ public class MainWindow extends javax.swing.JFrame {
         
         this.codePanel.add(this.codeTextScrollPane);
         
-
+        //</editor-fold>
     }
     
     private void initCodeTextArea()
     {
+        //<editor-fold defaultstate="collapsed" desc=" CodeTexxtArea initialization ">
         codeTextArea.append("/*\n");
         codeTextArea.append(" * AR.Drone 2.0 Validation Tool\n");
         codeTextArea.append(" * The main logic goes here. Do not remove the main()\n");
@@ -373,9 +375,9 @@ public class MainWindow extends javax.swing.JFrame {
         codeTextArea.append("{\n");
         codeTextArea.append("\tprintln(\"Hello world!\")\n");
         codeTextArea.append("}");
+        //</editor-fold>
     }
     
-
     private CompletionProvider createCompletionProvider() {
       //<editor-fold defaultstate="collapsed" desc="AutoCompletion">
       // A DefaultCompletionProvider is the simplest concrete implementation
