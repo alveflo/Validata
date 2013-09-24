@@ -37,7 +37,7 @@ public class EnclosurePack {
             }
             plotreader.close();
         }
-        catch(FileNotFoundException ex)
+        catch(Exception ex)
         {
             System.err.println(ex.toString());
         }

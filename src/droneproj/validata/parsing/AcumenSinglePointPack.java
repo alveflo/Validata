@@ -44,7 +44,7 @@ public class AcumenSinglePointPack {
             
             
         }
-        catch(FileNotFoundException ex)
+        catch(Exception ex)
         {
             System.err.println(ex.toString());        
         }
