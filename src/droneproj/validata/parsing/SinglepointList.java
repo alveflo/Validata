@@ -4,13 +4,14 @@
  */
 package droneproj.validata.parsing;
 
+import droneproj.validata.utils.ListInterface;
 import java.util.ArrayList;
 
 /**
  *
  * @author Jonas
  */
-public class SinglepointList {
+public class SinglepointList implements ListInterface{
     private String name;
     private ArrayList<Double> time;
     private ArrayList<Double> value;
@@ -64,7 +65,22 @@ public class SinglepointList {
     /**
      * @return the name
      */
+    @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public boolean isSinglePointList() {
+        return true;
+    }
+
+    @Override
+    public ArrayList[] getDataPoints() {
+        ArrayList<Double>[] DataPoints; 
+        DataPoints = new ArrayList[2];
+        DataPoints[0] = time;
+        DataPoints[1] = value;
+        return DataPoints;
     }
 }

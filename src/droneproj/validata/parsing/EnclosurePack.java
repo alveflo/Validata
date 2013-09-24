@@ -1,5 +1,7 @@
 package droneproj.validata.parsing;
 
+import droneproj.validata.utils.ListInterface;
+import droneproj.validata.utils.ListPackInterface;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -10,7 +12,7 @@ import java.util.Scanner;
  *
  * @author Jonas
  */
-public class EnclosurePack {
+public class EnclosurePack implements ListPackInterface{
     private ArrayList<EnclosureList> enclousureLists;
     
     public EnclosurePack(String fileName){
@@ -64,5 +66,20 @@ public class EnclosurePack {
                 System.out.print(eL.getMax(i) + "\n");
             }
         }
+    }
+
+    @Override
+    public String[] getNames() {
+        String[] names = new String[enclousureLists.size()];
+        for(int i = 0; i < enclousureLists.size();i++)
+        {
+            names[i] = getList(i).getName();
+        }
+        return names;
+    }
+
+    @Override
+    public ListInterface getList(int index) {
+        return enclousureLists.get(index);
     }
 }

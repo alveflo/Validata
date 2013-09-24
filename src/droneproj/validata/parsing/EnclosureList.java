@@ -4,13 +4,14 @@
  */
 package droneproj.validata.parsing;
 
+import droneproj.validata.utils.ListInterface;
 import java.util.ArrayList;
 
 /**
  *
  * @author Jonas
  */
-public class EnclosureList {
+public class EnclosureList implements ListInterface{
     private String name;
     private ArrayList<Double> time;
     private ArrayList<Double> min;
@@ -80,7 +81,23 @@ public class EnclosureList {
     /**
      * @return the name
      */
+    @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public boolean isSinglePointList() {
+        return false;
+    }
+
+    @Override
+    public ArrayList[] getDataPoints() {
+        ArrayList<Double>[] DataPoints; 
+        DataPoints = new ArrayList[3];
+        DataPoints[0] = time;
+        DataPoints[1] = min;
+        DataPoints[2] = max;
+        return DataPoints;
     }
 }

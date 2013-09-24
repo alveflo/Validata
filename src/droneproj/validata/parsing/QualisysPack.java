@@ -4,6 +4,8 @@
  */
 package droneproj.validata.parsing;
 
+import droneproj.validata.utils.ListInterface;
+import droneproj.validata.utils.ListPackInterface;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -14,7 +16,7 @@ import java.util.Scanner;
  *
  * @author Jonas
  */
-public class QualisysPack {
+public class QualisysPack implements ListPackInterface{
     private ArrayList<SinglepointList> QualisysLists;
     
     public QualisysPack(String fileName)
@@ -63,5 +65,20 @@ public class QualisysPack {
                 System.out.print(sPL.getValue(i) + "\n");
             }
         }
+    }
+
+    @Override
+    public String[] getNames() {
+        String[] names = new String[QualisysLists.size()];
+        for(int i = 0; i < QualisysLists.size();i++)
+        {
+            names[i] = getList(i).getName();
+        }
+        return names;
+    }
+
+    @Override
+    public ListInterface getList(int index) {
+        return QualisysLists.get(index);
     }
 }

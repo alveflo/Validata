@@ -4,6 +4,8 @@
  */
 package droneproj.validata.parsing;
 
+import droneproj.validata.utils.ListInterface;
+import droneproj.validata.utils.ListPackInterface;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -14,7 +16,7 @@ import java.util.Scanner;
  *
  * @author Jonas
  */
-public class AcumenSinglePointPack {
+public class AcumenSinglePointPack implements ListPackInterface {
        private ArrayList<SinglepointList> AcumenLists;
     
     public AcumenSinglePointPack(String fileName)
@@ -69,5 +71,20 @@ public class AcumenSinglePointPack {
      */
     public ArrayList<SinglepointList> getAcumenLists() {
         return AcumenLists;
+    }
+
+    @Override
+    public String[] getNames() {
+        String[] names = new String[AcumenLists.size()];
+        for(int i = 0; i < AcumenLists.size();i++)
+        {
+            names[i] = getList(i).getName();
+        }
+        return names;
+    }
+
+    @Override
+    public ListInterface getList(int index) {
+        return AcumenLists.get(index);
     }
 }
