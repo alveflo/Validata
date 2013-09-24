@@ -70,8 +70,8 @@
                   <Component id="jPanel1" max="32767" attributes="0"/>
                   <Component id="codePanel" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="plotTabbedPane" pref="500" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="plotTabbedPane" pref="455" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -104,14 +104,18 @@
                   <Component id="runButton" min="-2" pref="59" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="stopButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="24" max="32767" attributes="0"/>
+                  <Component id="plotButton" min="-2" pref="63" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Component id="runButton" max="32767" attributes="0"/>
-              <Component id="stopButton" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="stopButton" alignment="3" max="32767" attributes="0"/>
+                  <Component id="plotButton" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -128,6 +132,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="STOP"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="stopButtonActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="plotButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Plot..."/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="plotButtonActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

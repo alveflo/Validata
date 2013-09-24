@@ -116,6 +116,7 @@ public class Plot2D extends ApplicationFrame {
     /**
      * @return the title
      */
+    @Override
     public String getTitle() {
         return title;
     }

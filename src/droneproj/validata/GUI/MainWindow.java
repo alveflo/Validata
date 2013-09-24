@@ -59,6 +59,7 @@ public class MainWindow extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         runButton = new javax.swing.JButton();
         stopButton = new javax.swing.JButton();
+        plotButton = new javax.swing.JButton();
         plotTabbedPane = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         outputTextArea = new javax.swing.JTextArea();
@@ -79,6 +80,18 @@ public class MainWindow extends javax.swing.JFrame {
         });
 
         stopButton.setText("STOP");
+        stopButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stopButtonActionPerformed(evt);
+            }
+        });
+
+        plotButton.setText("Plot...");
+        plotButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                plotButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -89,12 +102,15 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(runButton, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(stopButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addComponent(plotButton, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(runButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(stopButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(stopButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(plotButton))
         );
 
         plotTabbedPane.setName("plotTabPanel"); // NOI18N
@@ -146,8 +162,8 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(codePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(plotTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(plotTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -213,7 +229,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_runButtonActionPerformed
 
     private void openScriptMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openScriptMenuItemActionPerformed
-        // TODO add your handling code here:
+        //<editor-fold defaultstate="collapsed" desc=" Open script procedure... ">
         int retVal = fileChooser.showOpenDialog(this);
         if (retVal == javax.swing.JFileChooser.APPROVE_OPTION)
         {
@@ -237,10 +253,11 @@ public class MainWindow extends javax.swing.JFrame {
                 System.err.println(e.toString());
             }
         }
+        //</editor-fold>
     }//GEN-LAST:event_openScriptMenuItemActionPerformed
 
     private void saveScriptMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveScriptMenuItemActionPerformed
-        // TODO add your handling code here:
+        //<editor-fold defaultstate="collapsed" desc=" Save script procedure... ">
         int retVal = fileChooser.showSaveDialog(this);
         if (retVal == javax.swing.JFileChooser.APPROVE_OPTION)
         {
@@ -255,7 +272,16 @@ public class MainWindow extends javax.swing.JFrame {
                 System.err.println(ex.toString());
             }          
         }
+        //</editor-fold>
     }//GEN-LAST:event_saveScriptMenuItemActionPerformed
+
+    private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed
+        // Safety logic goes here...
+    }//GEN-LAST:event_stopButtonActionPerformed
+
+    private void plotButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plotButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_plotButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -300,6 +326,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuItem openScriptMenuItem;
     private javax.swing.JTextArea outputTextArea;
+    private javax.swing.JButton plotButton;
     private javax.swing.JTabbedPane plotTabbedPane;
     private javax.swing.JButton runButton;
     private javax.swing.JMenuItem saveScriptMenuItem;
