@@ -11,8 +11,17 @@ import droneproj.validata.parsing.SinglepointList;
 import droneproj.validata.plot.Plot2D;
 import droneproj.validata.systemrerouter.*;
 import java.awt.BorderLayout;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.fife.ui.rsyntaxtextarea.*;
 import javax.swing.plaf.*;
 import org.fife.ui.autocomplete.*;
@@ -29,6 +38,7 @@ public class MainWindow extends javax.swing.JFrame {
      */
     public MainWindow() {
         initComponents();
+        fileChooser = new javax.swing.JFileChooser();
         System.setOut(new PrintStream(new SystemOutRerouter(this.outputTextArea)));
         System.setErr(new PrintStream(new SystemErrRerouter(this.outputTextArea)));
         
@@ -54,7 +64,9 @@ public class MainWindow extends javax.swing.JFrame {
         outputTextArea = new javax.swing.JTextArea();
         codePanel = new javax.swing.JPanel(new BorderLayout());
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        fileMenu = new javax.swing.JMenu();
+        openScriptMenuItem = new javax.swing.JMenuItem();
+        saveScriptMenuItem = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -96,10 +108,29 @@ public class MainWindow extends javax.swing.JFrame {
 
         plotTabbedPane.addTab("Console", jScrollPane1);
 
-        codePanel.setLayout(new java.awt.GridLayout());
+        codePanel.setLayout(new java.awt.GridLayout(1, 0));
 
-        jMenu1.setText("File");
-        jMenuBar1.add(jMenu1);
+        fileMenu.setText("File");
+
+        openScriptMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        openScriptMenuItem.setText("Open script...");
+        openScriptMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openScriptMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(openScriptMenuItem);
+
+        saveScriptMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        saveScriptMenuItem.setText("Save script...");
+        saveScriptMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveScriptMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(saveScriptMenuItem);
+
+        jMenuBar1.add(fileMenu);
 
         jMenu2.setText("Edit");
         jMenuBar1.add(jMenu2);
@@ -181,6 +212,51 @@ public class MainWindow extends javax.swing.JFrame {
 
     }//GEN-LAST:event_runButtonActionPerformed
 
+    private void openScriptMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openScriptMenuItemActionPerformed
+        // TODO add your handling code here:
+        int retVal = fileChooser.showOpenDialog(this);
+        if (retVal == javax.swing.JFileChooser.APPROVE_OPTION)
+        {
+            File file = fileChooser.getSelectedFile();
+            BufferedReader reader = null;
+            try
+            {
+                reader = new BufferedReader(new FileReader(file));
+                String line = null;
+                StringBuilder  stringBuilder = new StringBuilder();
+                String ls = System.getProperty("line.separator");
+
+                while( ( line = reader.readLine() ) != null ) {
+                    stringBuilder.append( line );
+                    stringBuilder.append( ls );
+                }
+                this.codeTextArea.setText(stringBuilder.toString());
+            }
+            catch (Exception e)
+            {
+                System.err.println(e.toString());
+            }
+        }
+    }//GEN-LAST:event_openScriptMenuItemActionPerformed
+
+    private void saveScriptMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveScriptMenuItemActionPerformed
+        // TODO add your handling code here:
+        int retVal = fileChooser.showSaveDialog(this);
+        if (retVal == javax.swing.JFileChooser.APPROVE_OPTION)
+        {
+            File file = fileChooser.getSelectedFile();
+            try {
+                PrintWriter writer = new PrintWriter(file.getAbsoluteFile(), "UTF-8");
+                writer.println(codeTextArea.getText());
+                writer.close();
+            } catch (FileNotFoundException ex) {
+                System.err.println(ex.toString());
+            } catch (UnsupportedEncodingException ex) {
+                System.err.println(ex.toString());
+            }          
+        }
+    }//GEN-LAST:event_saveScriptMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -217,19 +293,22 @@ public class MainWindow extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel codePanel;
-    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu fileMenu;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JMenuItem openScriptMenuItem;
     private javax.swing.JTextArea outputTextArea;
     private javax.swing.JTabbedPane plotTabbedPane;
     private javax.swing.JButton runButton;
+    private javax.swing.JMenuItem saveScriptMenuItem;
     private javax.swing.JButton stopButton;
     // End of variables declaration//GEN-END:variables
     private ScriptInterpreter scriptInterpreter;
     private org.fife.ui.rsyntaxtextarea.RSyntaxTextArea codeTextArea;
     private org.fife.ui.rtextarea.RTextScrollPane codeTextScrollPane;
+    private final javax.swing.JFileChooser fileChooser;
     /**
      * Initializing the code editor with a pre-defined template
      */
@@ -252,6 +331,8 @@ public class MainWindow extends javax.swing.JFrame {
         this.codeTextScrollPane.setFoldIndicatorEnabled(true);
         
         this.codePanel.add(this.codeTextScrollPane);
+        
+
     }
     
     private void initCodeTextArea()
