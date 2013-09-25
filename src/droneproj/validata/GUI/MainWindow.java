@@ -10,6 +10,7 @@ import droneproj.validata.parsing.EnclosurePack;
 import droneproj.validata.parsing.SinglepointList;
 import droneproj.validata.plot.Plot2D;
 import droneproj.validata.systemrerouter.*;
+import droneproj.validata.utils.DataPackage;
 import java.awt.BorderLayout;
 import java.io.BufferedReader;
 import java.io.File;
@@ -42,10 +43,11 @@ public class MainWindow extends javax.swing.JFrame {
         fileChooser = new javax.swing.JFileChooser();
         System.setOut(new PrintStream(new SystemOutRerouter(this.outputTextArea)));
         System.setErr(new PrintStream(new SystemErrRerouter(this.outputTextArea)));
-        
         scriptInterpreter = ScriptInterpreter.getInstance();
         this.initSyntaxCodeComponents();
         this.initCodeTextArea();
+        
+        this.dataPackageList = new ArrayList<DataPackage>();
     }
 
     /**
@@ -58,9 +60,20 @@ public class MainWindow extends javax.swing.JFrame {
     private void initComponents() {
 
         plotSetupDialog = new javax.swing.JDialog();
-        plotSetup1 = new droneproj.validata.GUI.PlotSetup();
+        plotSetupDialogTitleLabel = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList();
+        plotSetupDialogAddButton = new javax.swing.JButton();
+        plotSetupDialogRemoveButton = new javax.swing.JButton();
+        plotSetupDialogOKButton = new javax.swing.JButton();
         plotSetupAddDataSourceDialog = new javax.swing.JDialog();
-        addDataSourceDialog1 = new droneproj.validata.GUI.AddDataSourceDialog();
+        jLabel1 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox();
+        jLabel2 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         runButton = new javax.swing.JButton();
@@ -78,29 +91,113 @@ public class MainWindow extends javax.swing.JFrame {
 
         plotSetupDialog.setMinimumSize(new java.awt.Dimension(430, 300));
 
+        plotSetupDialogTitleLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        plotSetupDialogTitleLabel.setText("Navdata collected");
+
+        jList1.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane2.setViewportView(jList1);
+
+        plotSetupDialogAddButton.setText("Add...");
+
+        plotSetupDialogRemoveButton.setText("Remove");
+
+        plotSetupDialogOKButton.setText("OK");
+
         javax.swing.GroupLayout plotSetupDialogLayout = new javax.swing.GroupLayout(plotSetupDialog.getContentPane());
         plotSetupDialog.getContentPane().setLayout(plotSetupDialogLayout);
         plotSetupDialogLayout.setHorizontalGroup(
             plotSetupDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(plotSetup1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(plotSetupDialogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(plotSetupDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(plotSetupDialogTitleLabel)
+                    .addGroup(plotSetupDialogLayout.createSequentialGroup()
+                        .addGroup(plotSetupDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(plotSetupDialogOKButton)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(plotSetupDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(plotSetupDialogRemoveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(plotSetupDialogAddButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         plotSetupDialogLayout.setVerticalGroup(
             plotSetupDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(plotSetup1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(plotSetupDialogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(plotSetupDialogTitleLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(plotSetupDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(plotSetupDialogLayout.createSequentialGroup()
+                        .addComponent(plotSetupDialogAddButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(plotSetupDialogRemoveButton)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(plotSetupDialogOKButton)
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         plotSetupAddDataSourceDialog.setMinimumSize(new java.awt.Dimension(334, 180));
         plotSetupAddDataSourceDialog.setPreferredSize(new java.awt.Dimension(334, 180));
 
+        jLabel1.setText("jLabel1");
+
+        jTextField1.setText("jTextField1");
+
+        jButton1.setText("Browse...");
+
+        jButton2.setText("OK");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel2.setText("Parser");
+
+        jButton3.setText("Cancel");
+
         javax.swing.GroupLayout plotSetupAddDataSourceDialogLayout = new javax.swing.GroupLayout(plotSetupAddDataSourceDialog.getContentPane());
         plotSetupAddDataSourceDialog.getContentPane().setLayout(plotSetupAddDataSourceDialogLayout);
         plotSetupAddDataSourceDialogLayout.setHorizontalGroup(
             plotSetupAddDataSourceDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(addDataSourceDialog1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(plotSetupAddDataSourceDialogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(plotSetupAddDataSourceDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addGroup(plotSetupAddDataSourceDialogLayout.createSequentialGroup()
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1))
+                    .addComponent(jLabel2)
+                    .addGroup(plotSetupAddDataSourceDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, plotSetupAddDataSourceDialogLayout.createSequentialGroup()
+                            .addComponent(jButton2)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton3))
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         plotSetupAddDataSourceDialogLayout.setVerticalGroup(
             plotSetupAddDataSourceDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(addDataSourceDialog1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(plotSetupAddDataSourceDialogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(plotSetupAddDataSourceDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(plotSetupAddDataSourceDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -362,20 +459,31 @@ public class MainWindow extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private droneproj.validata.GUI.AddDataSourceDialog addDataSourceDialog1;
     private javax.swing.JPanel codePanel;
     private javax.swing.JMenu fileMenu;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JList jList1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JMenuItem openScriptMenuItem;
     private javax.swing.JTextArea outputTextArea;
     private javax.swing.JButton plotButton;
-    private droneproj.validata.GUI.PlotSetup plotSetup1;
     private javax.swing.JDialog plotSetupAddDataSourceDialog;
     private javax.swing.JDialog plotSetupDialog;
+    private javax.swing.JButton plotSetupDialogAddButton;
+    private javax.swing.JButton plotSetupDialogOKButton;
+    private javax.swing.JButton plotSetupDialogRemoveButton;
+    private javax.swing.JLabel plotSetupDialogTitleLabel;
     private javax.swing.JTabbedPane plotTabbedPane;
     private javax.swing.JButton runButton;
     private javax.swing.JMenuItem saveScriptMenuItem;
@@ -384,6 +492,8 @@ public class MainWindow extends javax.swing.JFrame {
     private ScriptInterpreter scriptInterpreter;
     private org.fife.ui.rsyntaxtextarea.RSyntaxTextArea codeTextArea;
     private org.fife.ui.rtextarea.RTextScrollPane codeTextScrollPane;
+    private ArrayList<DataPackage> dataPackageList;
+    
     private final javax.swing.JFileChooser fileChooser;
     /**
      * Initializing the code editor with a pre-defined template
