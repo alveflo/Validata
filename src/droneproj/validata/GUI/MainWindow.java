@@ -11,6 +11,7 @@ import droneproj.validata.parsing.SinglepointList;
 import droneproj.validata.plot.Plot2D;
 import droneproj.validata.systemrerouter.*;
 import droneproj.validata.utils.DataPackage;
+import droneproj.validata.utils.Parser;
 import java.awt.BorderLayout;
 import java.io.BufferedReader;
 import java.io.File;
@@ -68,13 +69,13 @@ public class MainWindow extends javax.swing.JFrame {
         plotSetupDialog_NextButton = new javax.swing.JButton();
         plotSetupDialog_CancelButton = new javax.swing.JButton();
         plotSetupAddDataSourceDialog = new javax.swing.JDialog();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox();
-        jLabel2 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        addDataSource_filePathLabel = new javax.swing.JLabel();
+        addDataSource_filepathTextField = new javax.swing.JTextField();
+        addDataSource_browseButton = new javax.swing.JButton();
+        addDataSource_okButton = new javax.swing.JButton();
+        addDataSource_parserComboBox = new javax.swing.JComboBox();
+        addDataSource_parserLabel = new javax.swing.JLabel();
+        addDataSource_cancelButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         runButton = new javax.swing.JButton();
@@ -134,15 +135,14 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(plotSetupDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(plotSetupDialog_TitleLabel)
                     .addGroup(plotSetupDialogLayout.createSequentialGroup()
-                        .addGroup(plotSetupDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(plotSetupDialog_NextButton)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(plotSetupDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(plotSetupDialog_RemoveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(plotSetupDialog_AddButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(plotSetupDialog_CancelButton, javax.swing.GroupLayout.Alignment.TRAILING))))
-                .addContainerGap(40, Short.MAX_VALUE))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(plotSetupDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(plotSetupDialog_CancelButton)
+                            .addComponent(plotSetupDialog_NextButton, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(plotSetupDialog_RemoveButton)
+                            .addComponent(plotSetupDialog_AddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         plotSetupDialogLayout.setVerticalGroup(
             plotSetupDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,34 +151,46 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(plotSetupDialog_TitleLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(plotSetupDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(plotSetupDialogLayout.createSequentialGroup()
                         .addComponent(plotSetupDialog_AddButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(plotSetupDialog_RemoveButton)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(plotSetupDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(plotSetupDialog_NextButton)
-                    .addComponent(plotSetupDialog_CancelButton))
-                .addContainerGap(32, Short.MAX_VALUE))
+                        .addComponent(plotSetupDialog_RemoveButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(plotSetupDialog_NextButton)
+                        .addGap(7, 7, 7)
+                        .addComponent(plotSetupDialog_CancelButton))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         plotSetupAddDataSourceDialog.setMinimumSize(new java.awt.Dimension(334, 180));
-        plotSetupAddDataSourceDialog.setPreferredSize(new java.awt.Dimension(334, 180));
 
-        jLabel1.setText("jLabel1");
+        addDataSource_filePathLabel.setText("filepath:");
 
-        jTextField1.setText("jTextField1");
+        addDataSource_browseButton.setText("Browse...");
+        addDataSource_browseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addDataSource_browseButtonActionPerformed(evt);
+            }
+        });
 
-        jButton1.setText("Browse...");
+        addDataSource_okButton.setText("OK");
+        addDataSource_okButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addDataSource_okButtonActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("OK");
+        addDataSource_parserComboBox.setModel(new javax.swing.DefaultComboBoxModel(Parser.values()));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        addDataSource_parserLabel.setText("Parser");
 
-        jLabel2.setText("Parser");
-
-        jButton3.setText("Cancel");
+        addDataSource_cancelButton.setText("Cancel");
+        addDataSource_cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addDataSource_cancelButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout plotSetupAddDataSourceDialogLayout = new javax.swing.GroupLayout(plotSetupAddDataSourceDialog.getContentPane());
         plotSetupAddDataSourceDialog.getContentPane().setLayout(plotSetupAddDataSourceDialogLayout);
@@ -187,38 +199,38 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(plotSetupAddDataSourceDialogLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(plotSetupAddDataSourceDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
+                    .addComponent(addDataSource_filePathLabel)
                     .addGroup(plotSetupAddDataSourceDialogLayout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(addDataSource_filepathTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1))
-                    .addComponent(jLabel2)
+                        .addComponent(addDataSource_browseButton))
+                    .addComponent(addDataSource_parserLabel)
                     .addGroup(plotSetupAddDataSourceDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, plotSetupAddDataSourceDialogLayout.createSequentialGroup()
-                            .addComponent(jButton2)
+                            .addComponent(addDataSource_okButton)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton3))
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(addDataSource_cancelButton))
+                        .addComponent(addDataSource_parserComboBox, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(67, Short.MAX_VALUE))
         );
         plotSetupAddDataSourceDialogLayout.setVerticalGroup(
             plotSetupAddDataSourceDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(plotSetupAddDataSourceDialogLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(addDataSource_filePathLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(plotSetupAddDataSourceDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(addDataSource_filepathTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addDataSource_browseButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
+                .addComponent(addDataSource_parserLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(addDataSource_parserComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(plotSetupAddDataSourceDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
-                .addContainerGap(25, Short.MAX_VALUE))
+                    .addComponent(addDataSource_okButton)
+                    .addComponent(addDataSource_cancelButton))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -448,7 +460,50 @@ public class MainWindow extends javax.swing.JFrame {
 //<editor-fold defaultstate="collapsed" desc="PlotSetupDialog actionListeners">
     private void plotSetupDialog_RemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plotSetupDialog_RemoveButtonActionPerformed
         //<editor-fold defaultstate="collapsed" desc="PlotSetupDialog: Remove data source from list">
-        this.dataPackageList.remove(this.plotSetupDialog_FileList.getSelectedIndex());
+        if(this.plotSetupDialog_FileList.getSelectedIndex()>=0)
+            this.dataPackageList.remove(this.plotSetupDialog_FileList.getSelectedIndex());
+        plotSetupDialog_updateList();
+        //</editor-fold>
+    }//GEN-LAST:event_plotSetupDialog_RemoveButtonActionPerformed
+
+    private void plotSetupDialog_AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plotSetupDialog_AddButtonActionPerformed
+        //<editor-fold defaultstate="collapsed" desc="PlotSetupDialog: Add button press ">
+        this.plotSetupAddDataSourceDialog.setVisible(true);
+        //</editor-fold>
+    }//GEN-LAST:event_plotSetupDialog_AddButtonActionPerformed
+
+    private void plotSetupDialog_CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plotSetupDialog_CancelButtonActionPerformed
+        //<editor-fold defaultstate="collapsed" desc="PlotSetupDialog: Cancel button press">
+        
+        //</editor-fold>
+    }//GEN-LAST:event_plotSetupDialog_CancelButtonActionPerformed
+
+    private void addDataSource_browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDataSource_browseButtonActionPerformed
+        //<editor-fold defaultstate="collapsed" desc="FileBrowser code">
+
+        int retVal = fileChooser.showOpenDialog(this);
+        if (retVal == javax.swing.JFileChooser.APPROVE_OPTION)
+        {
+            addDataSource_filepathTextField.setText(fileChooser.getSelectedFile().getPath());
+        }
+        //</editor-fold>
+    }//GEN-LAST:event_addDataSource_browseButtonActionPerformed
+
+    private void addDataSource_okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDataSource_okButtonActionPerformed
+        //<editor-fold defaultstate="collapsed" desc="Ok kod">
+        dataPackageList.add(new DataPackage(addDataSource_filepathTextField.getText(), (Parser)addDataSource_parserComboBox.getSelectedItem()));
+        this.plotSetupAddDataSourceDialog.setVisible(false);
+        plotSetupDialog_updateList();
+        //</editor-fold>
+    }//GEN-LAST:event_addDataSource_okButtonActionPerformed
+
+    private void addDataSource_cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDataSource_cancelButtonActionPerformed
+        this.plotSetupAddDataSourceDialog.setVisible(false);
+    }//GEN-LAST:event_addDataSource_cancelButtonActionPerformed
+//</editor-fold>
+    
+    private void plotSetupDialog_updateList()
+    {
         String[] tempList = new String[this.dataPackageList.size()];
         int i = 0;
         for (DataPackage dp : this.dataPackageList)
@@ -456,23 +511,7 @@ public class MainWindow extends javax.swing.JFrame {
             tempList[i++] = dp.getName();
         }
         this.plotSetupDialog_FileList.setListData(tempList);
-        //</editor-fold>
-    }//GEN-LAST:event_plotSetupDialog_RemoveButtonActionPerformed
-
-    private void plotSetupDialog_AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plotSetupDialog_AddButtonActionPerformed
-        // TODO add your handling code here:
-        //<editor-fold defaultstate="collapsed" desc="PlotSetupDialog: Add button press ">
-        this.plotSetupAddDataSourceDialog.setVisible(true);
-        //</editor-fold>
-    }//GEN-LAST:event_plotSetupDialog_AddButtonActionPerformed
-
-    private void plotSetupDialog_CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plotSetupDialog_CancelButtonActionPerformed
-        // TODO add your handling code here:
-        //<editor-fold defaultstate="collapsed" desc="PlotSetupDialog: Cancel button press">
-        
-        //</editor-fold>
-    }//GEN-LAST:event_plotSetupDialog_CancelButtonActionPerformed
-//</editor-fold>
+    }
     /**
      * @param args the command line arguments
      */
@@ -508,21 +547,21 @@ public class MainWindow extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addDataSource_browseButton;
+    private javax.swing.JButton addDataSource_cancelButton;
+    private javax.swing.JLabel addDataSource_filePathLabel;
+    private javax.swing.JTextField addDataSource_filepathTextField;
+    private javax.swing.JButton addDataSource_okButton;
+    private javax.swing.JComboBox addDataSource_parserComboBox;
+    private javax.swing.JLabel addDataSource_parserLabel;
     private javax.swing.JPanel codePanel;
     private javax.swing.JMenu fileMenu;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JMenuItem openScriptMenuItem;
     private javax.swing.JTextArea outputTextArea;
     private javax.swing.JButton plotButton;

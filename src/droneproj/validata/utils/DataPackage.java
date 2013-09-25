@@ -23,6 +23,8 @@ public class DataPackage {
     {
         this.filename = filename; 
         this.parser = parser;
+        String [] split = filename.split("\\\\");
+        name = split[split.length-1];
     }
     
     public void constructDataPack()
