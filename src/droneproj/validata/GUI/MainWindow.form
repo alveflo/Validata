@@ -113,7 +113,7 @@
     <Container class="javax.swing.JDialog" name="plotSetupAddDataSourceDialog">
       <Properties>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[334, 180]"/>
+          <Dimension value="[334, 200]"/>
         </Property>
       </Properties>
 
@@ -162,7 +162,7 @@
                       <Component id="addDataSource_okButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="addDataSource_cancelButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="46" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -170,7 +170,7 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="addDataSource_filePathLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="filepath:"/>
+            <Property name="text" type="java.lang.String" value="Select file:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="addDataSource_filepathTextField">

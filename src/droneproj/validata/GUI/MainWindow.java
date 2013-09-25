@@ -163,9 +163,9 @@ public class MainWindow extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        plotSetupAddDataSourceDialog.setMinimumSize(new java.awt.Dimension(334, 180));
+        plotSetupAddDataSourceDialog.setMinimumSize(new java.awt.Dimension(334, 200));
 
-        addDataSource_filePathLabel.setText("filepath:");
+        addDataSource_filePathLabel.setText("Select file:");
 
         addDataSource_browseButton.setText("Browse...");
         addDataSource_browseButton.addActionListener(new java.awt.event.ActionListener() {
@@ -230,7 +230,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(plotSetupAddDataSourceDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addDataSource_okButton)
                     .addComponent(addDataSource_cancelButton))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
