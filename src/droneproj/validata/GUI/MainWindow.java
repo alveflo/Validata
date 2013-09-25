@@ -22,6 +22,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import org.fife.ui.rsyntaxtextarea.*;
 import javax.swing.plaf.*;
 import org.fife.ui.autocomplete.*;
@@ -56,6 +57,21 @@ public class MainWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        plotSetupDialog = new javax.swing.JDialog();
+        plotSetupDialogTitleLabel = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        plotSetupDialogFileList = new javax.swing.JList();
+        plotSetupDialogAddButton = new javax.swing.JButton();
+        plotSetupDialogRemoveButton = new javax.swing.JButton();
+        plotSetupDialogNextButton = new javax.swing.JButton();
+        plotSetupAddDataSourceDialog = new javax.swing.JDialog();
+        addDataSourceTitleLabel = new javax.swing.JLabel();
+        addDataSourceTextField = new javax.swing.JTextField();
+        addDataSourceBrowseButton = new javax.swing.JButton();
+        addDataSourceOKButton = new javax.swing.JButton();
+        addDataSourceParserComboBox = new javax.swing.JComboBox();
+        addDataSourceParserLabel = new javax.swing.JLabel();
+        addDataSourceCancelButton = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         runButton = new javax.swing.JButton();
         stopButton = new javax.swing.JButton();
@@ -69,6 +85,139 @@ public class MainWindow extends javax.swing.JFrame {
         openScriptMenuItem = new javax.swing.JMenuItem();
         saveScriptMenuItem = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+
+        plotSetupDialog.setMinimumSize(new java.awt.Dimension(430, 300));
+
+        plotSetupDialogTitleLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        plotSetupDialogTitleLabel.setText("Navdata collected?");
+
+        plotSetupDialogFileList.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = {"Empty", "List", "Init"};
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane2.setViewportView(plotSetupDialogFileList);
+
+        plotSetupDialogAddButton.setText("Add...");
+        plotSetupDialogAddButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                plotSetupDialogAddButtonActionPerformed(evt);
+            }
+        });
+
+        plotSetupDialogRemoveButton.setText("Remove");
+        plotSetupDialogRemoveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                plotSetupDialogRemoveButtonActionPerformed(evt);
+            }
+        });
+
+        plotSetupDialogNextButton.setText("Next");
+
+        javax.swing.GroupLayout plotSetupDialogLayout = new javax.swing.GroupLayout(plotSetupDialog.getContentPane());
+        plotSetupDialog.getContentPane().setLayout(plotSetupDialogLayout);
+        plotSetupDialogLayout.setHorizontalGroup(
+            plotSetupDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(plotSetupDialogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(plotSetupDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(plotSetupDialogTitleLabel)
+                    .addGroup(plotSetupDialogLayout.createSequentialGroup()
+                        .addGroup(plotSetupDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(plotSetupDialogNextButton)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(plotSetupDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(plotSetupDialogRemoveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(plotSetupDialogAddButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(12, Short.MAX_VALUE))
+        );
+        plotSetupDialogLayout.setVerticalGroup(
+            plotSetupDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(plotSetupDialogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(plotSetupDialogTitleLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(plotSetupDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(plotSetupDialogLayout.createSequentialGroup()
+                        .addComponent(plotSetupDialogAddButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(plotSetupDialogRemoveButton)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                .addComponent(plotSetupDialogNextButton)
+                .addContainerGap())
+        );
+
+        plotSetupAddDataSourceDialog.setMinimumSize(new java.awt.Dimension(334, 180));
+        plotSetupAddDataSourceDialog.setPreferredSize(new java.awt.Dimension(334, 180));
+
+        addDataSourceTitleLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        addDataSourceTitleLabel.setText("Add data source");
+
+        addDataSourceBrowseButton.setText("Browse");
+        addDataSourceBrowseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addDataSourceBrowseButtonActionPerformed(evt);
+            }
+        });
+
+        addDataSourceOKButton.setText("OK");
+
+        addDataSourceParserComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Acumen Enclosure", "Acumen floatingpoint", "Qualisys Motion data", "AR.Drone NavData" }));
+        addDataSourceParserComboBox.setSelectedIndex(0);
+
+        addDataSourceParserLabel.setText("Parser:");
+
+        addDataSourceCancelButton.setText("Cancel");
+        addDataSourceCancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addDataSourceCancelButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout plotSetupAddDataSourceDialogLayout = new javax.swing.GroupLayout(plotSetupAddDataSourceDialog.getContentPane());
+        plotSetupAddDataSourceDialog.getContentPane().setLayout(plotSetupAddDataSourceDialogLayout);
+        plotSetupAddDataSourceDialogLayout.setHorizontalGroup(
+            plotSetupAddDataSourceDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(plotSetupAddDataSourceDialogLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addGroup(plotSetupAddDataSourceDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(plotSetupAddDataSourceDialogLayout.createSequentialGroup()
+                        .addComponent(addDataSourceOKButton, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(addDataSourceCancelButton))
+                    .addComponent(addDataSourceTitleLabel)
+                    .addGroup(plotSetupAddDataSourceDialogLayout.createSequentialGroup()
+                        .addGroup(plotSetupAddDataSourceDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(plotSetupAddDataSourceDialogLayout.createSequentialGroup()
+                                .addComponent(addDataSourceParserLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(addDataSourceParserComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(addDataSourceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(addDataSourceBrowseButton)))
+                .addContainerGap(23, Short.MAX_VALUE))
+        );
+        plotSetupAddDataSourceDialogLayout.setVerticalGroup(
+            plotSetupAddDataSourceDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(plotSetupAddDataSourceDialogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(addDataSourceTitleLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(plotSetupAddDataSourceDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addDataSourceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addDataSourceBrowseButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(plotSetupAddDataSourceDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addDataSourceParserLabel)
+                    .addComponent(addDataSourceParserComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(plotSetupAddDataSourceDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addDataSourceOKButton)
+                    .addComponent(addDataSourceCancelButton))
+                .addContainerGap(32, Short.MAX_VALUE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -280,8 +429,41 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_stopButtonActionPerformed
 
     private void plotButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plotButtonActionPerformed
-        // TODO add your handling code here:
+        this.plotSetupDialog.setVisible(true);
     }//GEN-LAST:event_plotButtonActionPerformed
+
+    private void plotSetupDialogAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plotSetupDialogAddButtonActionPerformed
+        this.plotSetupAddDataSourceDialog.setVisible(true);
+    }//GEN-LAST:event_plotSetupDialogAddButtonActionPerformed
+
+    private void addDataSourceBrowseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDataSourceBrowseButtonActionPerformed
+        //<editor-fold defaultstate="collapsed" desc=" Open plot procedure... ">
+        int retVal = fileChooser.showOpenDialog(this);
+        if (retVal == javax.swing.JFileChooser.APPROVE_OPTION)
+        {
+            File file = fileChooser.getSelectedFile();
+            BufferedReader reader = null;
+            try
+            {
+                DefaultListModel listModel = new DefaultListModel();
+                this.addDataSourceTextField.setText(file.getAbsolutePath() + file.getName());
+            }
+            catch (Exception e)
+            {
+                System.err.println(e.toString());
+            }
+        }
+        this.plotSetupAddDataSourceDialog.setVisible(true);
+        //</editor-fold>
+    }//GEN-LAST:event_addDataSourceBrowseButtonActionPerformed
+
+    private void addDataSourceCancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDataSourceCancelButtonActionPerformed
+        this.plotSetupAddDataSourceDialog.setVisible(false);
+    }//GEN-LAST:event_addDataSourceCancelButtonActionPerformed
+
+    private void plotSetupDialogRemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plotSetupDialogRemoveButtonActionPerformed
+        this.plotSetupDialogFileList.remove(this.plotSetupDialogFileList.getSelectedIndex());
+    }//GEN-LAST:event_plotSetupDialogRemoveButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -318,15 +500,30 @@ public class MainWindow extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addDataSourceBrowseButton;
+    private javax.swing.JButton addDataSourceCancelButton;
+    private javax.swing.JButton addDataSourceOKButton;
+    private javax.swing.JComboBox addDataSourceParserComboBox;
+    private javax.swing.JLabel addDataSourceParserLabel;
+    private javax.swing.JTextField addDataSourceTextField;
+    private javax.swing.JLabel addDataSourceTitleLabel;
     private javax.swing.JPanel codePanel;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JMenuItem openScriptMenuItem;
     private javax.swing.JTextArea outputTextArea;
     private javax.swing.JButton plotButton;
+    private javax.swing.JDialog plotSetupAddDataSourceDialog;
+    private javax.swing.JDialog plotSetupDialog;
+    private javax.swing.JButton plotSetupDialogAddButton;
+    private javax.swing.JList plotSetupDialogFileList;
+    private javax.swing.JButton plotSetupDialogNextButton;
+    private javax.swing.JButton plotSetupDialogRemoveButton;
+    private javax.swing.JLabel plotSetupDialogTitleLabel;
     private javax.swing.JTabbedPane plotTabbedPane;
     private javax.swing.JButton runButton;
     private javax.swing.JMenuItem saveScriptMenuItem;
