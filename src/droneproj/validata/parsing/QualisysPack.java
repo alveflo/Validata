@@ -81,4 +81,8 @@ public class QualisysPack implements ListPackInterface{
     public ListInterface getList(int index) {
         return QualisysLists.get(index);
     }
+    @Override
+    public int getSize() {
+        return QualisysLists.size();
+    }
 }

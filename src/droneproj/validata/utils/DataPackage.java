@@ -4,6 +4,7 @@
  */
 package droneproj.validata.utils;
 
+import droneproj.validata.parsing.AcumenSinglePointPack;
 import droneproj.validata.parsing.EnclosurePack;
 import droneproj.validata.parsing.NavdataPack;
 import droneproj.validata.parsing.QualisysPack;
@@ -25,9 +26,11 @@ public class DataPackage {
         this.parser = parser;
         String [] split = filename.split("\\\\");
         name = split[split.length-1];
+        System.out.println(name);
+        constructDataPack();
     }
     
-    public void constructDataPack()
+    private void constructDataPack()
     {
         switch (this.parser)
         {
@@ -35,7 +38,7 @@ public class DataPackage {
                 this.listPack = new EnclosurePack(this.filename);
                 break;
             case ACUMEN_FLOATING_POINT:
-//                this.listPack = new ???
+                this.listPack = new AcumenSinglePointPack(this.filename);
                 break;
             case QUALISYS_MOTION_DATA:
                 this.listPack = new QualisysPack(this.filename);

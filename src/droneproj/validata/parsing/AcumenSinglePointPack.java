@@ -87,4 +87,9 @@ public class AcumenSinglePointPack implements ListPackInterface {
     public ListInterface getList(int index) {
         return AcumenLists.get(index);
     }
+
+    @Override
+    public int getSize() {
+        return AcumenLists.size();
+    }
 }

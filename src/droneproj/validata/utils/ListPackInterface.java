@@ -11,4 +11,5 @@ package droneproj.validata.utils;
 public interface ListPackInterface {
     public String[] getNames();
     public ListInterface getList(int index);
+    public int getSize();
 }

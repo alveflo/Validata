@@ -26,4 +26,6 @@ public interface ListInterface {
      * @return Data points: [0] Time, [1,2,3,..,x] DataPointLists
      */
     public ArrayList[] getDataPoints();
+    public double getTime(int pos);
+    public int getSize();
 }

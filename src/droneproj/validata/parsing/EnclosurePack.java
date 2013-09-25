@@ -82,4 +82,9 @@ public class EnclosurePack implements ListPackInterface{
     public ListInterface getList(int index) {
         return enclousureLists.get(index);
     }
+    
+    @Override
+    public int getSize() {
+        return this.enclousureLists.size();
+    }
 }

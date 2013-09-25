@@ -23,4 +23,9 @@ public class NavdataPack implements ListPackInterface{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     //TODO : EVERYTHING!!!!
+
+    @Override
+    public int getSize() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

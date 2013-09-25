@@ -11,6 +11,7 @@ import droneproj.validata.parsing.SinglepointList;
 import droneproj.validata.plot.Plot2D;
 import droneproj.validata.systemrerouter.*;
 import droneproj.validata.utils.DataPackage;
+import droneproj.validata.utils.ListInterface;
 import droneproj.validata.utils.Parser;
 import java.awt.BorderLayout;
 import java.io.BufferedReader;
@@ -22,11 +23,15 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 import org.fife.ui.rsyntaxtextarea.*;
 import javax.swing.plaf.*;
+import javax.swing.table.DefaultTableModel;
 import org.fife.ui.autocomplete.*;
 import org.fife.ui.rtextarea.*;
 
@@ -43,7 +48,7 @@ public class MainWindow extends javax.swing.JFrame {
         initComponents();
         fileChooser = new javax.swing.JFileChooser();
         System.setOut(new PrintStream(new SystemOutRerouter(this.outputTextArea)));
-        System.setErr(new PrintStream(new SystemErrRerouter(this.outputTextArea)));
+      //  System.setErr(new PrintStream(new SystemErrRerouter(this.outputTextArea)));
         scriptInterpreter = ScriptInterpreter.getInstance();
         this.initSyntaxCodeComponents();
         this.initCodeTextArea();
@@ -77,6 +82,12 @@ public class MainWindow extends javax.swing.JFrame {
         addDataSource_parserLabel = new javax.swing.JLabel();
         addDataSource_cancelButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
+        plotSetupAssignDialog = new javax.swing.JDialog();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        plotSetupAssignTable = new javax.swing.JTable();
+        plotSetupAssignDialog_PlotButton = new javax.swing.JButton();
+        plotSetupAssignDialog_CancelButton = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         runButton = new javax.swing.JButton();
         stopButton = new javax.swing.JButton();
@@ -118,6 +129,11 @@ public class MainWindow extends javax.swing.JFrame {
         });
 
         plotSetupDialog_NextButton.setText("Next");
+        plotSetupDialog_NextButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                plotSetupDialog_NextButtonActionPerformed(evt);
+            }
+        });
 
         plotSetupDialog_CancelButton.setText("Cancel");
         plotSetupDialog_CancelButton.addActionListener(new java.awt.event.ActionListener() {
@@ -244,6 +260,78 @@ public class MainWindow extends javax.swing.JFrame {
             .addGap(0, 100, Short.MAX_VALUE)
         );
 
+        plotSetupAssignDialog.setMinimumSize(new java.awt.Dimension(450, 350));
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setText("Assign plot-ID to datasets:");
+
+        plotSetupAssignTable.setAutoCreateRowSorter(true);
+        plotSetupAssignTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                { new Integer(0), null},
+                { new Integer(1), null},
+                { new Integer(2), null},
+                { new Integer(3), null}
+            },
+            new String [] {
+                "Plot ID", "Dataset"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(plotSetupAssignTable);
+
+        plotSetupAssignDialog_PlotButton.setText("Plot!");
+        plotSetupAssignDialog_PlotButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                plotSetupAssignDialog_PlotButtonActionPerformed(evt);
+            }
+        });
+
+        plotSetupAssignDialog_CancelButton.setText("Cancel");
+        plotSetupAssignDialog_CancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                plotSetupAssignDialog_CancelButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout plotSetupAssignDialogLayout = new javax.swing.GroupLayout(plotSetupAssignDialog.getContentPane());
+        plotSetupAssignDialog.getContentPane().setLayout(plotSetupAssignDialogLayout);
+        plotSetupAssignDialogLayout.setHorizontalGroup(
+            plotSetupAssignDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(plotSetupAssignDialogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(plotSetupAssignDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(13, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, plotSetupAssignDialogLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(plotSetupAssignDialog_PlotButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(plotSetupAssignDialog_CancelButton)
+                .addContainerGap())
+        );
+        plotSetupAssignDialogLayout.setVerticalGroup(
+            plotSetupAssignDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(plotSetupAssignDialogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(plotSetupAssignDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(plotSetupAssignDialog_PlotButton)
+                    .addComponent(plotSetupAssignDialog_CancelButton))
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         runButton.setText("RUN");
@@ -359,47 +447,7 @@ public class MainWindow extends javax.swing.JFrame {
     private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runButtonActionPerformed
         // TODO add your handling code here:
         this.outputTextArea.setText("");
-
-        for (int i=this.plotTabbedPane.getTabCount()-1;i>0;i--)
-        {
-            this.plotTabbedPane.remove(i);
-        }
-        
         scriptInterpreter.runScript(this.codeTextArea.getText());
-        /*ArrayList<Double> test1 = new ArrayList<Double>();
-        ArrayList<Double> test2 = new ArrayList<Double>();
-        ArrayList<Double> test3 = new ArrayList<Double>();
-        ArrayList<Double> time = new ArrayList<Double>();
-        for (int i = 0;i<200;i++)
-        {
-            test1.add((double)10 + i);
-            test2.add((double)i);
-            test3.add((double)5 + i);
-            time.add((double)i/10);
-        }
-        
-        EnclosureList el = new EnclosureList("X",time,test2,test1);
-        SinglepointList sl = new SinglepointList(time,test3);
-        */
-        
-        EnclosurePack eP = new EnclosurePack("C:\\Users\\Victor\\Desktop\\Table");
-        AcumenSinglePointPack sP = new AcumenSinglePointPack("C:\\Users\\Victor\\Desktop\\SinglepointAcumen.txt");
-        SinglepointList[] sllist = new SinglepointList[1];
-        for(EnclosureList eL: eP.getEnclousureLists())
-        {
-            for(SinglepointList sL: sP.getAcumenLists())
-            {
-                if(eL.getName().equals(sL.getName()))
-                {
-                    sllist[0] = sL;
-                    Plot2D plot = new Plot2D(eL.getName(), eL, sllist);
-                    plotTabbedPane.addTab(plot.getTitle(), plot.getPanel());
-                }
-            }
-        }
-        
-
-
     }//GEN-LAST:event_runButtonActionPerformed
 
     private void openScriptMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openScriptMenuItemActionPerformed
@@ -500,6 +548,25 @@ public class MainWindow extends javax.swing.JFrame {
     private void addDataSource_cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDataSource_cancelButtonActionPerformed
         this.plotSetupAddDataSourceDialog.setVisible(false);
     }//GEN-LAST:event_addDataSource_cancelButtonActionPerformed
+
+    private void plotSetupDialog_NextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plotSetupDialog_NextButtonActionPerformed
+        //<editor-fold defaultstate="collapsed" desc="PlotSetupDialog: Next button press">
+        this.plotSetupDialog.setVisible(false);
+        this.updatePlotAssignTable();
+        this.plotSetupAssignDialog.setVisible(true);
+        //</editor-fold>
+    }//GEN-LAST:event_plotSetupDialog_NextButtonActionPerformed
+
+    private void plotSetupAssignDialog_PlotButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plotSetupAssignDialog_PlotButtonActionPerformed
+        this.plotSetupAssignDialog.setVisible(false);
+        plot();
+    }//GEN-LAST:event_plotSetupAssignDialog_PlotButtonActionPerformed
+
+    private void plotSetupAssignDialog_CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plotSetupAssignDialog_CancelButtonActionPerformed
+        RowSorter sorter = this.plotSetupAssignTable.getRowSorter();
+        sorter.setSortKeys(Arrays.asList(new RowSorter.SortKey(0, SortOrder.ASCENDING)));
+        this.plotSetupAssignTable.setRowSorter(sorter);
+    }//GEN-LAST:event_plotSetupAssignDialog_CancelButtonActionPerformed
 //</editor-fold>
     
     private void plotSetupDialog_updateList()
@@ -556,16 +623,22 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel addDataSource_parserLabel;
     private javax.swing.JPanel codePanel;
     private javax.swing.JMenu fileMenu;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JMenuItem openScriptMenuItem;
     private javax.swing.JTextArea outputTextArea;
     private javax.swing.JButton plotButton;
     private javax.swing.JDialog plotSetupAddDataSourceDialog;
+    private javax.swing.JDialog plotSetupAssignDialog;
+    private javax.swing.JButton plotSetupAssignDialog_CancelButton;
+    private javax.swing.JButton plotSetupAssignDialog_PlotButton;
+    private javax.swing.JTable plotSetupAssignTable;
     private javax.swing.JDialog plotSetupDialog;
     private javax.swing.JButton plotSetupDialog_AddButton;
     private javax.swing.JButton plotSetupDialog_CancelButton;
@@ -693,6 +766,93 @@ public class MainWindow extends javax.swing.JFrame {
 
       return provider;
       //</editor-fold>
-   }
+    }
+    
+    private void updatePlotAssignTable()
+    {
+        int totalDatasetCounter = 0;
+        
+        for (DataPackage dp : this.dataPackageList)
+        {
+            totalDatasetCounter += dp.getListPack().getSize();
+        }
+        
+        Object[][] tableValues = new Object[totalDatasetCounter][2];
+        int i = 0;
+        int j = 0;
+        for (DataPackage dp : this.dataPackageList)
+        {
+            String[] temp = dp.getListPack().getNames();
+            j=0;
+            for (String str : temp)
+            {
+                tableValues[i][0] = j;
+                tableValues[i++][1] = dp.getListPack().getList(j++);
+            }
+        }
+        
+
+        
+        plotSetupAssignTable.setModel(new javax.swing.table.DefaultTableModel(
+            tableValues,
+            new String [] {
+                "Plot ID", "Dataset"
+            }
+            ) {
+                Class[] types = new Class [] {
+                    java.lang.Integer.class, java.lang.String.class
+                };
+
+                public Class getColumnClass(int columnIndex) {
+                    return types [columnIndex];
+                }
+            });
+    }
+    
+    private void plot()
+    {
+        for (int i=this.plotTabbedPane.getTabCount()-1;i>0;i--)
+        {
+            this.plotTabbedPane.remove(i);
+        }
+        
+        
+        RowSorter sorter = this.plotSetupAssignTable.getRowSorter();
+        sorter.setSortKeys(Arrays.asList(new RowSorter.SortKey(0, SortOrder.ASCENDING)));
+        this.plotSetupAssignTable.setRowSorter(sorter);
+        
+        
+        DefaultTableModel dtm = (DefaultTableModel) this.plotSetupAssignTable.getModel();
+
+        EnclosureList eL = null;
+        ArrayList<ListInterface> singlepointList;
+
+        for (int i=0;i<dtm.getRowCount();)
+        {
+            int x = ((int)dtm.getValueAt(i, 0));
+            singlepointList = new ArrayList<ListInterface>();
+            eL=null;
+            
+            while (i<dtm.getRowCount() && ((int)dtm.getValueAt(i,0))==x)
+            {
+                ListInterface list = (ListInterface)dtm.getValueAt(i,1);
+                if (list.isSinglePointList())
+                    singlepointList.add(list);
+                else
+                    eL = (EnclosureList) list;
+                i++;
+            }
+            // List with enclosure!
+            if (eL != null && singlepointList.size()>0)
+            {
+                ListInterface[] li = new ListInterface[singlepointList.size()];
+                for (int p=0;p<li.length;p++)
+                    li[p] = singlepointList.get(p);
+                Plot2D plot = new Plot2D(eL.getName(), eL, li);
+                this.plotTabbedPane.addTab(plot.getTitle(), plot.getPanel());
+            }
+
+        }
+    }
 
 }

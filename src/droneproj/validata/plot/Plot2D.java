@@ -6,9 +6,11 @@ package droneproj.validata.plot;
 
 import droneproj.validata.parsing.EnclosureList;
 import droneproj.validata.parsing.SinglepointList;
+import droneproj.validata.utils.ListInterface;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Line2D;
+import java.util.ArrayList;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -29,8 +31,8 @@ public class Plot2D extends ApplicationFrame {
     private EnclosureList enclosureList;
     private final ChartPanel chartPanel;
     private String title;
-    private SinglepointList[] singlepointList;
-    public Plot2D (final String title, EnclosureList enclosureList, SinglepointList[] singlepointList)
+    private ListInterface[] singlepointList;
+    public Plot2D (final String title, EnclosureList enclosureList, ListInterface[] singlepointList)
     {
         super(title); 
         this.title = title;
@@ -99,13 +101,14 @@ public class Plot2D extends ApplicationFrame {
         
         int x = 0;
         String name = "";
-        for (SinglepointList sl: singlepointList)
+        for (ListInterface sl : singlepointList)
         {
             name = (sl.getName() == null) ? "INPUT" + (x+1) : sl.getName();
             xySeries[x] = new XYSeries(name);
+            ArrayList<Double> datapoints = sl.getDataPoints()[1];
             for (int i=0;i<sl.getSize();i++)
             {
-                xySeries[x].add(sl.getTime(i),sl.getValue(i));
+                xySeries[x].add(sl.getTime(i),datapoints.get(i));
             }
             dataset.addSeries(xySeries[x]);
             x++;
