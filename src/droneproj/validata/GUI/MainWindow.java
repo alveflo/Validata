@@ -60,12 +60,13 @@ public class MainWindow extends javax.swing.JFrame {
     private void initComponents() {
 
         plotSetupDialog = new javax.swing.JDialog();
-        plotSetupDialogTitleLabel = new javax.swing.JLabel();
+        plotSetupDialog_TitleLabel = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
-        plotSetupDialogAddButton = new javax.swing.JButton();
-        plotSetupDialogRemoveButton = new javax.swing.JButton();
-        plotSetupDialogOKButton = new javax.swing.JButton();
+        plotSetupDialog_FileList = new javax.swing.JList();
+        plotSetupDialog_AddButton = new javax.swing.JButton();
+        plotSetupDialog_RemoveButton = new javax.swing.JButton();
+        plotSetupDialog_NextButton = new javax.swing.JButton();
+        plotSetupDialog_CancelButton = new javax.swing.JButton();
         plotSetupAddDataSourceDialog = new javax.swing.JDialog();
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
@@ -91,21 +92,38 @@ public class MainWindow extends javax.swing.JFrame {
 
         plotSetupDialog.setMinimumSize(new java.awt.Dimension(430, 300));
 
-        plotSetupDialogTitleLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        plotSetupDialogTitleLabel.setText("Navdata collected");
+        plotSetupDialog_TitleLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        plotSetupDialog_TitleLabel.setText("Setup plots");
 
-        jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+        plotSetupDialog_FileList.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane2.setViewportView(jList1);
+        jScrollPane2.setViewportView(plotSetupDialog_FileList);
 
-        plotSetupDialogAddButton.setText("Add...");
+        plotSetupDialog_AddButton.setText("Add...");
+        plotSetupDialog_AddButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                plotSetupDialog_AddButtonActionPerformed(evt);
+            }
+        });
 
-        plotSetupDialogRemoveButton.setText("Remove");
+        plotSetupDialog_RemoveButton.setText("Remove");
+        plotSetupDialog_RemoveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                plotSetupDialog_RemoveButtonActionPerformed(evt);
+            }
+        });
 
-        plotSetupDialogOKButton.setText("OK");
+        plotSetupDialog_NextButton.setText("Next");
+
+        plotSetupDialog_CancelButton.setText("Cancel");
+        plotSetupDialog_CancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                plotSetupDialog_CancelButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout plotSetupDialogLayout = new javax.swing.GroupLayout(plotSetupDialog.getContentPane());
         plotSetupDialog.getContentPane().setLayout(plotSetupDialogLayout);
@@ -114,31 +132,34 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(plotSetupDialogLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(plotSetupDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(plotSetupDialogTitleLabel)
+                    .addComponent(plotSetupDialog_TitleLabel)
                     .addGroup(plotSetupDialogLayout.createSequentialGroup()
                         .addGroup(plotSetupDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(plotSetupDialogOKButton)
+                            .addComponent(plotSetupDialog_NextButton)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(plotSetupDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(plotSetupDialogRemoveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(plotSetupDialogAddButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(plotSetupDialog_RemoveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(plotSetupDialog_AddButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(plotSetupDialog_CancelButton, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
         plotSetupDialogLayout.setVerticalGroup(
             plotSetupDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(plotSetupDialogLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(plotSetupDialogTitleLabel)
+                .addComponent(plotSetupDialog_TitleLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(plotSetupDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(plotSetupDialogLayout.createSequentialGroup()
-                        .addComponent(plotSetupDialogAddButton)
+                        .addComponent(plotSetupDialog_AddButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(plotSetupDialogRemoveButton)))
+                        .addComponent(plotSetupDialog_RemoveButton)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(plotSetupDialogOKButton)
+                .addGroup(plotSetupDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(plotSetupDialog_NextButton)
+                    .addComponent(plotSetupDialog_CancelButton))
                 .addContainerGap(32, Short.MAX_VALUE))
         );
 
@@ -424,6 +445,34 @@ public class MainWindow extends javax.swing.JFrame {
         this.plotSetupDialog.setVisible(true);
     }//GEN-LAST:event_plotButtonActionPerformed
 
+//<editor-fold defaultstate="collapsed" desc="PlotSetupDialog actionListeners">
+    private void plotSetupDialog_RemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plotSetupDialog_RemoveButtonActionPerformed
+        //<editor-fold defaultstate="collapsed" desc="PlotSetupDialog: Remove data source from list">
+        this.dataPackageList.remove(this.plotSetupDialog_FileList.getSelectedIndex());
+        String[] tempList = new String[this.dataPackageList.size()];
+        int i = 0;
+        for (DataPackage dp : this.dataPackageList)
+        {
+            tempList[i++] = dp.getName();
+        }
+        this.plotSetupDialog_FileList.setListData(tempList);
+        //</editor-fold>
+    }//GEN-LAST:event_plotSetupDialog_RemoveButtonActionPerformed
+
+    private void plotSetupDialog_AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plotSetupDialog_AddButtonActionPerformed
+        // TODO add your handling code here:
+        //<editor-fold defaultstate="collapsed" desc="PlotSetupDialog: Add button press ">
+        this.plotSetupAddDataSourceDialog.setVisible(true);
+        //</editor-fold>
+    }//GEN-LAST:event_plotSetupDialog_AddButtonActionPerformed
+
+    private void plotSetupDialog_CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plotSetupDialog_CancelButtonActionPerformed
+        // TODO add your handling code here:
+        //<editor-fold defaultstate="collapsed" desc="PlotSetupDialog: Cancel button press">
+        
+        //</editor-fold>
+    }//GEN-LAST:event_plotSetupDialog_CancelButtonActionPerformed
+//</editor-fold>
     /**
      * @param args the command line arguments
      */
@@ -467,7 +516,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JList jList1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
@@ -480,10 +528,12 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton plotButton;
     private javax.swing.JDialog plotSetupAddDataSourceDialog;
     private javax.swing.JDialog plotSetupDialog;
-    private javax.swing.JButton plotSetupDialogAddButton;
-    private javax.swing.JButton plotSetupDialogOKButton;
-    private javax.swing.JButton plotSetupDialogRemoveButton;
-    private javax.swing.JLabel plotSetupDialogTitleLabel;
+    private javax.swing.JButton plotSetupDialog_AddButton;
+    private javax.swing.JButton plotSetupDialog_CancelButton;
+    private javax.swing.JList plotSetupDialog_FileList;
+    private javax.swing.JButton plotSetupDialog_NextButton;
+    private javax.swing.JButton plotSetupDialog_RemoveButton;
+    private javax.swing.JLabel plotSetupDialog_TitleLabel;
     private javax.swing.JTabbedPane plotTabbedPane;
     private javax.swing.JButton runButton;
     private javax.swing.JMenuItem saveScriptMenuItem;
