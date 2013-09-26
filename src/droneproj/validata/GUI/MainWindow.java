@@ -11,6 +11,7 @@ import droneproj.validata.utils.DataPackage;
 import droneproj.validata.utils.ListInterface;
 import droneproj.validata.utils.Parser;
 import java.awt.BorderLayout;
+import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -37,6 +38,7 @@ public class MainWindow extends javax.swing.JFrame {
      */
     public MainWindow() {
         initComponents();
+        setIcon();
         fileChooser = new javax.swing.JFileChooser();
         System.setOut(new PrintStream(new SystemOutRerouter(this.outputTextArea)));
       //  System.setErr(new PrintStream(new SystemErrRerouter(this.outputTextArea)));
@@ -94,6 +96,7 @@ public class MainWindow extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
 
         plotSetupDialog.setMinimumSize(new java.awt.Dimension(430, 300));
+        plotSetupDialog.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("circle_green.png")));
 
         plotSetupDialog_TitleLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         plotSetupDialog_TitleLabel.setText("Setup plots");
@@ -171,6 +174,7 @@ public class MainWindow extends javax.swing.JFrame {
         );
 
         plotSetupAddDataSourceDialog.setMinimumSize(new java.awt.Dimension(334, 200));
+        plotSetupAddDataSourceDialog.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("circle_green.png")));
 
         addDataSource_filePathLabel.setText("Select file:");
 
@@ -252,6 +256,7 @@ public class MainWindow extends javax.swing.JFrame {
         );
 
         plotSetupAssignDialog.setMinimumSize(new java.awt.Dimension(450, 350));
+        plotSetupAssignDialog.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("circle_green.png")));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Assign plot-ID to datasets:");
@@ -324,6 +329,9 @@ public class MainWindow extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Validation platform");
+        setIconImage(getIconImage());
+        setIconImages(null);
 
         runButton.setText("RUN");
         runButton.addActionListener(new java.awt.event.ActionListener() {
@@ -901,6 +909,10 @@ public class MainWindow extends javax.swing.JFrame {
             }
 
         }*/
+    }
+
+    private void setIcon() {
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("circle_green.png")));
     }
 
 }
