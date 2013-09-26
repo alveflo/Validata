@@ -816,17 +816,70 @@ public class MainWindow extends javax.swing.JFrame {
             this.plotTabbedPane.remove(i);
         }
         
-        
-        RowSorter sorter = this.plotSetupAssignTable.getRowSorter();
-        sorter.setSortKeys(Arrays.asList(new RowSorter.SortKey(0, SortOrder.ASCENDING)));
-        this.plotSetupAssignTable.setRowSorter(sorter);
-        
-        
         DefaultTableModel dtm = (DefaultTableModel) this.plotSetupAssignTable.getModel();
+        int max = Integer.MIN_VALUE;
+        int current;
+        for (int i=0;i<dtm.getRowCount();i++)
+        {
+            current = (int)dtm.getValueAt(i, 0);
+            max = max > current ? max: current;
+        }
+        ArrayList<ListInterface>[] Listcontainer = new ArrayList[max+1];
+        for(int i = 0;i<Listcontainer.length;i++)
+        {
+            Listcontainer[i] = new ArrayList<>();
+        }
+        int pos = 0;
+        ListInterface LISTTEMP;
+        for(int i=0;i<dtm.getRowCount();i++)
+        {
+            pos = (int)dtm.getValueAt(i, 0);
+            LISTTEMP = (ListInterface)dtm.getValueAt(i, 1);
+            Listcontainer[pos].add(LISTTEMP);
+        }
 
         EnclosureList eL = null;
         ArrayList<ListInterface> singlepointList;
 
+        for(int i = 0; i< Listcontainer.length;i++)
+        {
+            eL = null;
+            singlepointList = new ArrayList<>();
+            for(ListInterface lI: Listcontainer[i])
+            {
+                if(!lI.isSinglePointList())
+                {
+                    eL = (EnclosureList)lI;
+                }
+                else
+                {
+                    singlepointList.add(lI);
+                }
+            }
+            if(eL != null && singlepointList.size() > 0)
+            {
+                ListInterface[] li = new ListInterface[singlepointList.size()];
+                for (int p=0;p<li.length;p++)
+                    li[p] = singlepointList.get(p);
+                Plot2D plot = new Plot2D(eL.getName(), eL, li);
+                this.plotTabbedPane.addTab(plot.getTitle(), plot.getPanel());
+            }
+            else if(singlepointList.size() > 0)
+            {
+                ListInterface[] li = new ListInterface[singlepointList.size()];
+                for (int p=0;p<li.length;p++)
+                    li[p] = singlepointList.get(p);
+                Plot2D plot = new Plot2D(li[0].getName(), li);
+                this.plotTabbedPane.addTab(plot.getTitle(), plot.getPanel());
+            }
+            else if(eL != null)
+            {
+                Plot2D plot = new Plot2D(eL.getName(), eL);
+                this.plotTabbedPane.addTab(plot.getTitle(), plot.getPanel());
+            }
+        }
+            
+            /*
         for (int i=0;i<dtm.getRowCount();)
         {
             int x = ((int)dtm.getValueAt(i, 0));
@@ -852,7 +905,7 @@ public class MainWindow extends javax.swing.JFrame {
                 this.plotTabbedPane.addTab(plot.getTitle(), plot.getPanel());
             }
 
-        }
+        }*/
     }
 
 }
