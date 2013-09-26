@@ -821,12 +821,12 @@ public class MainWindow extends javax.swing.JFrame {
             Listcontainer[i] = new ArrayList<>();
         }
         int pos = 0;
-        ListInterface LISTTEMP;
+        ListInterface temporaryList;
         for(int i=0;i<dtm.getRowCount();i++)
         {
             pos = (int)dtm.getValueAt(i, 0);
-            LISTTEMP = (ListInterface)dtm.getValueAt(i, 1);
-            Listcontainer[pos].add(LISTTEMP);
+            temporaryList = (ListInterface)dtm.getValueAt(i, 1);
+            Listcontainer[pos].add(temporaryList);
         }
 
         EnclosureList eL = null;
@@ -851,7 +851,9 @@ public class MainWindow extends javax.swing.JFrame {
             {
                 ListInterface[] li = new ListInterface[singlepointList.size()];
                 for (int p=0;p<li.length;p++)
+                {
                     li[p] = singlepointList.get(p);
+                }
                 Plot2D plot = new Plot2D(eL.getName(), eL, li);
                 this.plotTabbedPane.addTab(plot.getTitle(), plot.getPanel());
             }
@@ -859,7 +861,9 @@ public class MainWindow extends javax.swing.JFrame {
             {
                 ListInterface[] li = new ListInterface[singlepointList.size()];
                 for (int p=0;p<li.length;p++)
+                {
                     li[p] = singlepointList.get(p);
+                }
                 Plot2D plot = new Plot2D(li[0].getName(), li);
                 this.plotTabbedPane.addTab(plot.getTitle(), plot.getPanel());
             }
