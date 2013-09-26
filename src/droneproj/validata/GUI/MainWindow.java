@@ -4,10 +4,7 @@
  */
 package droneproj.validata.GUI;
 import droneproj.validata.interpreter.ScriptInterpreter;
-import droneproj.validata.parsing.AcumenSinglePointPack;
 import droneproj.validata.parsing.EnclosureList;
-import droneproj.validata.parsing.EnclosurePack;
-import droneproj.validata.parsing.SinglepointList;
 import droneproj.validata.plot.Plot2D;
 import droneproj.validata.systemrerouter.*;
 import droneproj.validata.utils.DataPackage;
@@ -16,7 +13,6 @@ import droneproj.validata.utils.Parser;
 import java.awt.BorderLayout;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.PrintStream;
@@ -24,16 +20,11 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
-import org.fife.ui.rsyntaxtextarea.*;
-import javax.swing.plaf.*;
 import javax.swing.table.DefaultTableModel;
 import org.fife.ui.autocomplete.*;
-import org.fife.ui.rtextarea.*;
+import org.fife.ui.rsyntaxtextarea.*;
 
 /**
  *
