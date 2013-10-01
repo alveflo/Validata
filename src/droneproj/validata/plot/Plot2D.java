@@ -69,8 +69,8 @@ import org.jfree.ui.ApplicationFrame;
     {
         JFreeChart chart = ChartFactory.createXYLineChart(
                 title,
-                "X",
-                "Y",
+                "Time",
+                "Value",
                 dataset,
                 PlotOrientation.VERTICAL,
                 true,
