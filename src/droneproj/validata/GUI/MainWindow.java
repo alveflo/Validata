@@ -264,24 +264,32 @@ public class MainWindow extends javax.swing.JFrame {
         plotSetupAssignTable.setAutoCreateRowSorter(true);
         plotSetupAssignTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                { new Integer(0), null},
-                { new Integer(1), null},
-                { new Integer(2), null},
-                { new Integer(3), null}
+                { new Integer(0), null, null},
+                { new Integer(1), null, null},
+                { new Integer(2), null, null},
+                { new Integer(3), null, null}
             },
             new String [] {
-                "Plot ID", "Dataset"
+                "Plot ID", "Name", "Dataset"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                true, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
         jScrollPane3.setViewportView(plotSetupAssignTable);
+        plotSetupAssignTable.getColumnModel().getColumn(2).setResizable(false);
 
         plotSetupAssignDialog_PlotButton.setText("Plot!");
         plotSetupAssignDialog_PlotButton.addActionListener(new java.awt.event.ActionListener() {
@@ -304,14 +312,15 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(plotSetupAssignDialogLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(plotSetupAssignDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(13, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, plotSetupAssignDialogLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(plotSetupAssignDialog_PlotButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(plotSetupAssignDialog_CancelButton)
+                    .addGroup(plotSetupAssignDialogLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 219, Short.MAX_VALUE))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, plotSetupAssignDialogLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(plotSetupAssignDialog_PlotButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(plotSetupAssignDialog_CancelButton)))
                 .addContainerGap())
         );
         plotSetupAssignDialogLayout.setVerticalGroup(
@@ -320,12 +329,11 @@ public class MainWindow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(plotSetupAssignDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(plotSetupAssignDialog_PlotButton)
-                    .addComponent(plotSetupAssignDialog_CancelButton))
-                .addContainerGap(25, Short.MAX_VALUE))
+                    .addComponent(plotSetupAssignDialog_CancelButton)))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -562,9 +570,10 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_plotSetupAssignDialog_PlotButtonActionPerformed
 
     private void plotSetupAssignDialog_CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plotSetupAssignDialog_CancelButtonActionPerformed
-        RowSorter sorter = this.plotSetupAssignTable.getRowSorter();
+       /* RowSorter sorter = this.plotSetupAssignTable.getRowSorter();
         sorter.setSortKeys(Arrays.asList(new RowSorter.SortKey(0, SortOrder.ASCENDING)));
-        this.plotSetupAssignTable.setRowSorter(sorter);
+        this.plotSetupAssignTable.setRowSorter(sorter);*/
+        plotSetupAssignDialog.setVisible(false);
     }//GEN-LAST:event_plotSetupAssignDialog_CancelButtonActionPerformed
 //</editor-fold>
     
@@ -776,17 +785,28 @@ public class MainWindow extends javax.swing.JFrame {
             totalDatasetCounter += dp.getListPack().getSize();
         }
         
-        Object[][] tableValues = new Object[totalDatasetCounter][2];
+        Object[][] tableValues = new Object[totalDatasetCounter][3];
         int i = 0;
         int j = 0;
+        
+        int c = 3;
         for (DataPackage dp : this.dataPackageList)
         {
             String[] temp = dp.getListPack().getNames();
             j=0;
             for (String str : temp)
             {
-                tableValues[i][0] = j;
-                tableValues[i++][1] = dp.getListPack().getList(j++);
+                if (dp.getListPack().getList(j).getName().contains("x") || dp.getListPack().getList(j).getName().contains("X"))
+                    tableValues[i][0] = 0;
+                else if (dp.getListPack().getList(j).getName().contains("y") || dp.getListPack().getList(j).getName().contains("Y"))
+                    tableValues[i][0] = 1;
+                else if (dp.getListPack().getList(j).getName().contains("z") || dp.getListPack().getList(j).getName().contains("Z"))
+                    tableValues[i][0] = 2;
+                else
+                    tableValues[i][0] = c++;
+                //tableValues[i][0] = j;
+                tableValues[i][1] = dp.getListPack().getList(j).getName();
+                tableValues[i++][2] = dp.getListPack().getList(j++);
             }
         }
         
@@ -795,17 +815,28 @@ public class MainWindow extends javax.swing.JFrame {
         plotSetupAssignTable.setModel(new javax.swing.table.DefaultTableModel(
             tableValues,
             new String [] {
-                "Plot ID", "Dataset"
+                "Plot ID", "Name", "Dataset"
             }
-            ) {
-                Class[] types = new Class [] {
-                    java.lang.Integer.class, java.lang.String.class
-                };
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                true, true, false
+            };
 
-                public Class getColumnClass(int columnIndex) {
-                    return types [columnIndex];
-                }
-            });
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        
+        RowSorter sorter = this.plotSetupAssignTable.getRowSorter();
+        sorter.setSortKeys(Arrays.asList(new RowSorter.SortKey(0, SortOrder.ASCENDING)));
+        this.plotSetupAssignTable.setRowSorter(sorter);
     }
     
     private void plot()
@@ -833,7 +864,7 @@ public class MainWindow extends javax.swing.JFrame {
         for(int i=0;i<dtm.getRowCount();i++)
         {
             pos = (int)dtm.getValueAt(i, 0);
-            temporaryList = (ListInterface)dtm.getValueAt(i, 1);
+            temporaryList = (ListInterface)dtm.getValueAt(i, 2);
             Listcontainer[pos].add(temporaryList);
         }
 
