@@ -43,7 +43,7 @@ public class DataPackage {
                 this.listPack = new QualisysPack(this.filename);
                 break;
             case NAVDATA:
-                //this.listPack = new NavdataPack(this.filename);
+                this.listPack = new NavdataPack(this.filename);
                 break;
             default:
                 break;
