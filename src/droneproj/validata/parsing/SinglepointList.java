@@ -33,6 +33,7 @@ public class SinglepointList implements ListInterface{
     /**
      * @return the time
      */
+    @Override
     public double getTime(int pos) {
         return time.get(pos);
     }
@@ -50,7 +51,7 @@ public class SinglepointList implements ListInterface{
     public double getValue(int pos) {
         return value.get(pos);
     }
-    
+    @Override
     public int getSize()
     {
         return time.size();

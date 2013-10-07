@@ -41,7 +41,7 @@ public class NavdataPack implements ListPackInterface{
                 splitLine = plotReader.nextLine().split("\t");
                 for(int i = 0; i < NavdataLists.size();i++)
                 {
-                    NavdataLists.get(i).addTime(Double.parseDouble(splitLine[1]));
+                    NavdataLists.get(i).addTime(Double.parseDouble(splitLine[1])/1000);
                     NavdataLists.get(i).addValue(Double.parseDouble(splitLine[i + 3])); // extra padding because of the placement of data in the navdata output
                 }
             }
@@ -73,7 +73,7 @@ public class NavdataPack implements ListPackInterface{
         return NavdataLists.size();
     }
     
-        public static void main(String [] args)
+    public static void main(String [] args)
     {                                       //C:\Users\Jonas\Dropbox\Utvecklingsprojekt\Data\Labbfiler\Test av köring upp&ner\Navdata\Mätning 1_1
         NavdataPack qP = new NavdataPack("C:\\Users\\Jonas\\Dropbox\\Utvecklingsprojekt\\Data\\Labbfiler\\Test av köring upp&ner\\Navdata\\Mätning 1_1\\Attitude TEST1.txt");
         for(SinglepointList sPL:qP.NavdataLists)
