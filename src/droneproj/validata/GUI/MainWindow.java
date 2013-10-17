@@ -529,7 +529,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void plotSetupDialog_CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plotSetupDialog_CancelButtonActionPerformed
         //<editor-fold defaultstate="collapsed" desc="PlotSetupDialog: Cancel button press">
-        
+        plotSetupDialog.setVisible(false);
         //</editor-fold>
     }//GEN-LAST:event_plotSetupDialog_CancelButtonActionPerformed
 
