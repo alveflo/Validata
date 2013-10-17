@@ -31,6 +31,11 @@ import org.jfree.ui.ApplicationFrame;
     private final ChartPanel chartPanel;
     private String title;
 
+    /**
+     * Constructor, creates a 2DPlot for only enclosure data
+     * @param title name of the plot
+     * @param enclosureList samples to be plotted
+     */
     public Plot2D(String title, EnclosureList enclosureList) 
     {
         super(title); 
@@ -42,6 +47,11 @@ import org.jfree.ui.ApplicationFrame;
         chartPanel = new ChartPanel(generateChartPanel(true, dataset));
     }
     
+    /**
+     * Constructor, creates a 2DPlot for only single point values
+     * @param title name of the plot
+     * @param singlepointList samples to be plotted 
+     */
     public Plot2D (final String title, ListInterface[] singlepointList)
     {
         super(title); 
@@ -53,6 +63,12 @@ import org.jfree.ui.ApplicationFrame;
         chartPanel = new ChartPanel(generateChartPanel(false, dataset));
     }
     
+    /**
+     * Constructor, creates a 2DPlot for single point and enclosure values
+     * @param title name of the plot
+     * @param enclosureList enclosure sample to be plotted
+     * @param singlepointList single point values to be plotted
+     */
     public Plot2D (final String title, EnclosureList enclosureList, ListInterface[] singlepointList)
     {
         super(title); 
@@ -65,6 +81,12 @@ import org.jfree.ui.ApplicationFrame;
         chartPanel = new ChartPanel(generateChartPanel(true, dataset));
     }
     
+    /**
+     * Generates a JFreeChart from the values provided in the constructor
+     * @param isDiffPlot if the samples include enclosure data
+     * @param dataset the samples to generate the data from
+     * @return A complete JFreeChart
+     */
     private JFreeChart generateChartPanel(boolean isDiffPlot, XYDataset dataset)
     {
         JFreeChart chart = ChartFactory.createXYLineChart(
@@ -108,6 +130,12 @@ import org.jfree.ui.ApplicationFrame;
         return chart;
     }
     
+    /**
+     * Adds a Enclosure to the XYSeries Collection
+     * @param eL enclosure samples to be added
+     * @param dataset dataset containing all values
+     * @return dataset with the new values
+     */
     private XYSeriesCollection incorporateEnclosure(EnclosureList eL, XYSeriesCollection dataset)
     {
         XYSeries[] enclosure = DatasetUtils.createEnclosureDataset(eL);
@@ -118,6 +146,12 @@ import org.jfree.ui.ApplicationFrame;
         return dataset;
     }
     
+    /**
+     * Adds some single point lists to the XYSeries Collection
+     * @param sL single point samples to be added
+     * @param dataset dataset containing all values
+     * @return dataset with the new values
+     */
     private XYSeriesCollection incorporateSinglePoint(ListInterface[] sL, XYSeriesCollection dataset)
     {
         XYSeries[] singlePoints = DatasetUtils.createSinglepointDataset(sL);
@@ -128,6 +162,10 @@ import org.jfree.ui.ApplicationFrame;
         return dataset;
     }
     
+    /**
+     * getter for the chartPanel
+     * @return the chartPanel
+     */
     public ChartPanel getPanel()
     {
         return chartPanel;

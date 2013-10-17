@@ -19,7 +19,7 @@ import java.util.Scanner;
 public class AcumenSinglePointPack implements ListPackInterface {
        private ArrayList<SinglepointList> AcumenLists;
     
-    public AcumenSinglePointPack(String fileName, double multiplicator,double diff)
+    public AcumenSinglePointPack(String fileName, double multiplicator,double diff, boolean zeroOffsetCorrection)
     {
         AcumenLists = new ArrayList<>();
         try{
@@ -87,6 +87,41 @@ public class AcumenSinglePointPack implements ListPackInterface {
                 }
             }
             
+                         
+            //<editor-fold defaultstate="collapsed" desc="zero offset correction code">            
+            if(zeroOffsetCorrection)
+            {
+                ArrayList<SinglepointList> tempPlaceholderLists = AcumenLists;
+                AcumenLists = new ArrayList<>();
+                double[] minValueUnderZero = new double[tempPlaceholderLists.size()];
+                for(int i = 0;i < minValueUnderZero.length;i++)
+                {minValueUnderZero[i] = 0;}
+                int cnt = 0;
+                for(SinglepointList eL: tempPlaceholderLists)
+                {
+                    for(int i = 0;i < eL.getSize();i++)
+                    {
+                        if(eL.getValue(i) < 0)
+                        {
+                            minValueUnderZero[cnt] = minValueUnderZero[cnt] > eL.getValue(i) ? eL.getValue(i) : minValueUnderZero[cnt];
+                        }
+                        eL.getValue(i);
+                    }
+                    cnt++;
+                }
+                cnt = 0;
+                for(SinglepointList eL: tempPlaceholderLists)
+                {
+                    AcumenLists.add(new SinglepointList(eL.getName()));
+                    for(int i = 0;i < eL.getSize();i++)
+                    {
+                        AcumenLists.get(cnt).addTime(eL.getTime(i));
+                        AcumenLists.get(cnt).addValue(eL.getValue(i) + Math.abs(minValueUnderZero[cnt]));
+                    }
+                    cnt++;
+                }
+            }
+            //</editor-fold>
             
         }
         catch(Exception ex)
@@ -97,7 +132,7 @@ public class AcumenSinglePointPack implements ListPackInterface {
     
     public static void main(String [] args)
     {
-        AcumenSinglePointPack qP = new AcumenSinglePointPack("C:\\Users\\Jonas\\Desktop\\klar.txt",1,1);
+        AcumenSinglePointPack qP = new AcumenSinglePointPack("C:\\Users\\Jonas\\Desktop\\klar.txt",1,1,true);
         for(SinglepointList sPL:qP.getAcumenLists())
         {
             System.out.println(sPL.getName());

@@ -18,7 +18,7 @@ import java.util.Scanner;
 public class EnclosurePackNew implements ListPackInterface{
     private ArrayList<EnclosureList> enclousureLists;
     
-    public EnclosurePackNew(String fileName, double multiplicator, double diff){
+    public EnclosurePackNew(String fileName, double multiplicator, double diff, boolean zeroOffsetCorrection){
         enclousureLists = new ArrayList<>();
         try{
             Scanner plotreader = new Scanner (new BufferedReader(new FileReader(fileName)));
@@ -29,8 +29,8 @@ public class EnclosurePackNew implements ListPackInterface{
             for(int i = 1; i < plots.length;i = i +2)
             {
                 enclousureLists.add(new EnclosureList(plots[i]));
-            }
-                       
+            }            
+            
             //<editor-fold defaultstate="collapsed" desc="sample cropping code">
             if(diff != 0 && plotreader.hasNextLine())
             {
@@ -91,6 +91,43 @@ public class EnclosurePackNew implements ListPackInterface{
                     enclousureLists.get(i-1).addMax(Double.parseDouble(plots[i*2])  * multiplicator);
                 }
             }
+            
+            //<editor-fold defaultstate="collapsed" desc="zero offset correction code">            
+            if(zeroOffsetCorrection)
+            {
+                ArrayList<EnclosureList> tempPlaceholderLists = enclousureLists;
+                enclousureLists = new ArrayList<>();
+                double[] minValueUnderZero = new double[tempPlaceholderLists.size()];
+                for(int i = 0;i < minValueUnderZero.length;i++)
+                {minValueUnderZero[i] = 0;}
+                int cnt = 0;
+                for(EnclosureList eL: tempPlaceholderLists)
+                {
+                    for(int i = 0;i < eL.getSize();i++)
+                    {
+                        if(eL.getMin(i) < 0)
+                        {
+                            minValueUnderZero[cnt] = minValueUnderZero[cnt] > eL.getMin(i) ? eL.getMin(i) : minValueUnderZero[cnt];
+                        }
+                        eL.getMin(i);
+                    }
+                    cnt++;
+                }
+                cnt = 0;
+                for(EnclosureList eL: tempPlaceholderLists)
+                {
+                    enclousureLists.add(new EnclosureList(eL.getName()));
+                    for(int i = 0;i < eL.getSize();i++)
+                    {
+                        enclousureLists.get(cnt).addTime(eL.getTime(i));
+                        enclousureLists.get(cnt).addMin(eL.getMin(i) + Math.abs(minValueUnderZero[cnt]));
+                        enclousureLists.get(cnt).addMax(eL.getMax(i) + Math.abs(minValueUnderZero[cnt]));
+                    }
+                    cnt++;
+                }
+            }
+                        //</editor-fold>
+            
             plotreader.close();
         }
         catch(Exception ex)
@@ -109,7 +146,7 @@ public class EnclosurePackNew implements ListPackInterface{
     
     public static void main(String [] args)
     {
-        droneproj.validata.parsing.EnclosurePack ab = new droneproj.validata.parsing.EnclosurePack("C:/Users/Jonas/Dropbox/Java/utvev/Validata/Plot test/src/Table",1,0);
+        EnclosurePackNew ab = new EnclosurePackNew("C:\\Users\\Jonas\\Dropbox\\Utvecklingsprojekt\\Data\\Validering_Markör\\Acumen\\Acumen_Marker_50cm",1,0,false);
         for(EnclosureList eL:ab.getEnclousureLists())
         {
             System.out.println("\n" +  eL.getName());

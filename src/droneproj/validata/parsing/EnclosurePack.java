@@ -15,7 +15,13 @@ import java.util.Scanner;
 public class EnclosurePack implements ListPackInterface{
     private ArrayList<EnclosureList> enclousureLists;
     
-    public EnclosurePack(String fileName,double multiplicator, double diff){
+    /**
+     * Constructor that parses the file
+     * @param fileName file to be parsed
+     * @param multiplicator 
+     * @param diff 
+     */
+    public EnclosurePack(String fileName,double multiplicator, double diff,boolean zeroOffsetCorrection){
         enclousureLists = new ArrayList<>();
         try{
             Scanner plotreader = new Scanner (new BufferedReader(new FileReader(fileName)));
@@ -88,6 +94,44 @@ public class EnclosurePack implements ListPackInterface{
                     enclousureLists.get(i-1).addMax(Double.parseDouble(points[1]) * multiplicator);
                 }
             }
+            
+            
+            //<editor-fold defaultstate="collapsed" desc="zero offset correction code">            
+            if(zeroOffsetCorrection)
+            {
+                ArrayList<EnclosureList> tempPlaceholderLists = enclousureLists;
+                enclousureLists = new ArrayList<>();
+                double[] minValueUnderZero = new double[tempPlaceholderLists.size()];
+                for(int i = 0;i < minValueUnderZero.length;i++)
+                {minValueUnderZero[i] = 0;}
+                int cnt = 0;
+                for(EnclosureList eL: tempPlaceholderLists)
+                {
+                    for(int i = 0;i < eL.getSize();i++)
+                    {
+                        if(eL.getMin(i) < 0)
+                        {
+                            minValueUnderZero[cnt] = minValueUnderZero[cnt] > eL.getMin(i) ? eL.getMin(i) : minValueUnderZero[cnt];
+                        }
+                        eL.getMin(i);
+                    }
+                    cnt++;
+                }
+                cnt = 0;
+                for(EnclosureList eL: tempPlaceholderLists)
+                {
+                    enclousureLists.add(new EnclosureList(eL.getName()));
+                    for(int i = 0;i < eL.getSize();i++)
+                    {
+                        enclousureLists.get(cnt).addTime(eL.getTime(i));
+                        enclousureLists.get(cnt).addMin(eL.getMin(i) + Math.abs(minValueUnderZero[cnt]));
+                        enclousureLists.get(cnt).addMax(eL.getMax(i) + Math.abs(minValueUnderZero[cnt]));
+                    }
+                    cnt++;
+                }
+            }
+                        //</editor-fold>
+            
             plotreader.close();
         }
         catch(Exception ex)
@@ -106,7 +150,7 @@ public class EnclosurePack implements ListPackInterface{
     
     public static void main(String [] args)
     {
-        EnclosurePack ab = new EnclosurePack("C:/Users/Jonas/Dropbox/Java/utvev/Validata/Plot test/src/Table",1,4);
+        EnclosurePack ab = new EnclosurePack("C:/Users/Jonas/Dropbox/Java/utvev/Validata/Plot test/src/Table",1,4,false);
         for(EnclosureList eL:ab.getEnclousureLists())
         {
             System.out.println("\n" +  eL.getName());

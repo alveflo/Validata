@@ -5,17 +5,20 @@
 package droneproj.validata.plot;
 
 import droneproj.validata.parsing.EnclosureList;
-import droneproj.validata.parsing.SinglepointList;
 import droneproj.validata.utils.ListInterface;
 import java.util.ArrayList;
 import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
 
 /**
  *
  * @author Jonas Jonson
  */
 public class DatasetUtils {
+    /**
+     * Creates a XYseries from enclosure data
+     * @param eL min and max values of a enclosure plot
+     * @return complete XYSeries of the enclosure
+     */
     public static XYSeries[] createEnclosureDataset(EnclosureList eL)
     {
         XYSeries[] enclosure = new XYSeries[2];
@@ -30,8 +33,17 @@ public class DatasetUtils {
         return enclosure;
     }
     
+    /**
+     * creates a XYSeries from the values it gets.
+     * Remark, if several lists have the same name all lists will be named as follows,
+     * INPUT 1, INPUT 2 and so on.
+     * @param sLArray array full of sample lists compirced as singlepoint values
+     * each element in the array should be a sample list with name and values.
+     * @return complete XYSeries from the lists
+     */
     public static XYSeries[] createSinglepointDataset(ListInterface[] sLArray)
     {
+        //<editor-fold defaultstate="collapsed" desc="safety check">
         int [] names = new int[sLArray.length];
         boolean safetyMode = false;
         /*
@@ -55,7 +67,7 @@ public class DatasetUtils {
                 break;
             }
         }
-        
+        //</editor-fold>
         
         XYSeries[] xySeries = new XYSeries[sLArray.length];
         

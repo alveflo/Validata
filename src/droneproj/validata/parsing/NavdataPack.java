@@ -18,7 +18,7 @@ import java.util.Scanner;
 public class NavdataPack implements ListPackInterface{
     private ArrayList<SinglepointList> NavdataLists;
 
-    public NavdataPack(String fileName, double multiplicator,double diff)
+    public NavdataPack(String fileName, double multiplicator,double diff,boolean zeroOffsetCorrection)
     {
         NavdataLists = new ArrayList<>();
         try{
@@ -80,7 +80,6 @@ public class NavdataPack implements ListPackInterface{
             }
             //</editor-fold>
             
-            
             while(plotReader.hasNextLine())
             {
                 splitLine = plotReader.nextLine().split("\t");
@@ -90,6 +89,43 @@ public class NavdataPack implements ListPackInterface{
                     NavdataLists.get(i).addValue(Double.parseDouble(splitLine[i + 3])); // extra padding because of the placement of data in the navdata output
                 }
             }
+            
+                         
+            //<editor-fold defaultstate="collapsed" desc="zero offset correction code">            
+            if(zeroOffsetCorrection)
+            {
+                ArrayList<SinglepointList> tempPlaceholderLists = NavdataLists;
+                NavdataLists = new ArrayList<>();
+                double[] minValueUnderZero = new double[tempPlaceholderLists.size()];
+                for(int i = 0;i < minValueUnderZero.length;i++)
+                {minValueUnderZero[i] = 0;}
+                int cnt = 0;
+                for(SinglepointList eL: tempPlaceholderLists)
+                {
+                    for(int i = 0;i < eL.getSize();i++)
+                    {
+                        if(eL.getValue(i) < 0)
+                        {
+                            minValueUnderZero[cnt] = minValueUnderZero[cnt] > eL.getValue(i) ? eL.getValue(i) : minValueUnderZero[cnt];
+                        }
+                        eL.getValue(i);
+                    }
+                    cnt++;
+                }
+                cnt = 0;
+                for(SinglepointList eL: tempPlaceholderLists)
+                {
+                    NavdataLists.add(new SinglepointList(eL.getName()));
+                    for(int i = 0;i < eL.getSize();i++)
+                    {
+                        NavdataLists.get(cnt).addTime(eL.getTime(i));
+                        NavdataLists.get(cnt).addValue(eL.getValue(i) + Math.abs(minValueUnderZero[cnt]));
+                    }
+                    cnt++;
+                }
+            }
+            //</editor-fold>
+            
             
         }
         catch(Exception ex)
@@ -120,7 +156,7 @@ public class NavdataPack implements ListPackInterface{
     
     public static void main(String [] args)
     {                                       //C:\Users\Jonas\Dropbox\Utvecklingsprojekt\Data\Labbfiler\Test av köring upp&ner\Navdata\Mätning 1_1
-        NavdataPack qP = new NavdataPack("C:\\Users\\Jonas\\Dropbox\\Utvecklingsprojekt\\Data\\Labbfiler\\Test av köring upp&ner\\Navdata\\Mätning 1_1\\Attitude TEST1.txt",1,10);
+        NavdataPack qP = new NavdataPack("C:\\Users\\Jonas\\Dropbox\\Utvecklingsprojekt\\Data\\Labbfiler\\Test av köring upp&ner\\Navdata\\Mätning 1_1\\Attitude TEST1.txt",1,10,true);
         for(SinglepointList sPL:qP.NavdataLists)
         {
             System.out.println(sPL.getName());

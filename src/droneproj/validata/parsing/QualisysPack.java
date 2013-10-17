@@ -19,7 +19,7 @@ import java.util.Scanner;
 public class QualisysPack implements ListPackInterface{
     private ArrayList<SinglepointList> QualisysLists;
     
-    public QualisysPack(String fileName, double multiplicator, double diff)
+    public QualisysPack(String fileName, double multiplicator, double diff, boolean zeroOffsetCorrection)
     {
         QualisysLists = new ArrayList<>();
         try{
@@ -89,6 +89,42 @@ public class QualisysPack implements ListPackInterface{
                 }
             }
             
+                        
+            //<editor-fold defaultstate="collapsed" desc="zero offset correction code">            
+            if(zeroOffsetCorrection)
+            {
+                ArrayList<SinglepointList> tempPlaceholderLists = QualisysLists;
+                QualisysLists = new ArrayList<>();
+                double[] minValueUnderZero = new double[tempPlaceholderLists.size()];
+                for(int i = 0;i < minValueUnderZero.length;i++)
+                {minValueUnderZero[i] = 0;}
+                int cnt = 0;
+                for(SinglepointList eL: tempPlaceholderLists)
+                {
+                    for(int i = 0;i < eL.getSize();i++)
+                    {
+                        if(eL.getValue(i) < 0)
+                        {
+                            minValueUnderZero[cnt] = minValueUnderZero[cnt] > eL.getValue(i) ? eL.getValue(i) : minValueUnderZero[cnt];
+                        }
+                        eL.getValue(i);
+                    }
+                    cnt++;
+                }
+                cnt = 0;
+                for(SinglepointList eL: tempPlaceholderLists)
+                {
+                    QualisysLists.add(new SinglepointList(eL.getName()));
+                    for(int i = 0;i < eL.getSize();i++)
+                    {
+                        QualisysLists.get(cnt).addTime(eL.getTime(i));
+                        QualisysLists.get(cnt).addValue(eL.getValue(i) + Math.abs(minValueUnderZero[cnt]));
+                    }
+                    cnt++;
+                }
+            }
+            //</editor-fold>
+            
             
         }
         catch(Exception ex)
@@ -99,10 +135,10 @@ public class QualisysPack implements ListPackInterface{
     
     public static void main(String [] args)
     {
-        QualisysPack qP = new QualisysPack("C:/Users/Jonas/Dropbox/Java/utvev/Validata/Plot test/src/Drop boll0517_500mm_b.tsv",1,20);
+        QualisysPack qP = new QualisysPack("C:/Users/Jonas/Dropbox/Java/utvev/Validata/Plot test/src/Drop boll0517_500mm_b.tsv",1,20,true);
         for(SinglepointList sPL:qP.QualisysLists)
         {
-            System.out.println(sPL.getName());
+            System.out.println("\n" + sPL.getName());
             for(int i = 0;i < sPL.getSize();i++)
             {
                 System.out.print(sPL.getTime(i) + "\t\t");
