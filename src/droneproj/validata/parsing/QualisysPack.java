@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Stack;
 
 /**
  *
@@ -41,8 +42,10 @@ public class QualisysPack implements ListPackInterface{
             //<editor-fold defaultstate="collapsed" desc="sample cropping code">
             if(diff != 0 && plotReader.hasNextLine())
             {
+                Stack<String> lineStack = new Stack<>();
                 boolean trig = false;
                 nextLine = plotReader.nextLine();
+                lineStack.push(nextLine);
                 splitLine = nextLine.split("\t");
                 double[] firstValues = new double[(splitLine.length - 1)];
                 
@@ -56,6 +59,7 @@ public class QualisysPack implements ListPackInterface{
                 while(!trig && plotReader.hasNextLine())
                 {
                     nextLine = plotReader.nextLine();
+                    lineStack.push(nextLine);
                     splitLine = nextLine.split("\t");
                     for(int i = 1; i < splitLine.length;i++)
                     {
@@ -68,11 +72,16 @@ public class QualisysPack implements ListPackInterface{
                     
                     if(trig)
                     {
-                        offset = Double.parseDouble(splitLine[1]);
-                        for(int i = 2; i < splitLine.length; i++)
-                        {
-                            QualisysLists.get(i-2).addTime(Double.parseDouble(splitLine[1])-offset);
-                            QualisysLists.get(i-2).addValue(Double.parseDouble(splitLine[i]) * multiplicator);
+                        int cnt = 0;
+                        while(!lineStack.isEmpty() && cnt < 5){
+                            nextLine = lineStack.pop();
+                            splitLine = nextLine.split("\t");
+                            offset = Double.parseDouble(splitLine[1]);
+                            for(int i = 2; i < splitLine.length; i++)
+                            {
+                                QualisysLists.get(i-2).addTime(Double.parseDouble(splitLine[1])-offset);
+                                QualisysLists.get(i-2).addValue(Double.parseDouble(splitLine[i]) * multiplicator);
+                            }
                         }
                     }
                 }

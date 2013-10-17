@@ -7,9 +7,11 @@ package droneproj.validata.parsing;
 import droneproj.validata.utils.ListInterface;
 import droneproj.validata.utils.ListPackInterface;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Stack;
 
 /**
  *
@@ -33,8 +35,10 @@ public class EnclosurePackNew implements ListPackInterface{
             //<editor-fold defaultstate="collapsed" desc="sample cropping code">
             if(diff != 0 && plotreader.hasNextLine())
             {
+                Stack<String> lineStack = new Stack<>();
                 boolean trig = false;
                 headers = plotreader.nextLine();
+                lineStack.push(headers);
                 plots = headers.replace(",",".").split("\t");
                 double[] firstValues = new double[(plots.length - 1) * 2];
                 int cnt = 0;
@@ -49,6 +53,7 @@ public class EnclosurePackNew implements ListPackInterface{
                 while(!trig && plotreader.hasNextLine())
                 {
                     headers = plotreader.nextLine();
+                    lineStack.push(headers);
                     plots = headers.replace(",", ".").split("\t");
                     cnt = 0;
                     for(int i = 1; i < plots.length;i++)
@@ -63,12 +68,17 @@ public class EnclosurePackNew implements ListPackInterface{
                     
                     if(trig)
                     {
-                        for(int i = 1; i < (plots.length/2)+1; i++)
-                        {
-                            offset = Double.parseDouble(plots[0]);
-                            enclousureLists.get(i-1).addTime(Double.parseDouble(plots[0])-offset);
-                            enclousureLists.get(i-1).addMin(Double.parseDouble(plots[i*2-1]) * multiplicator);
-                            enclousureLists.get(i-1).addMax(Double.parseDouble(plots[i*2]) * multiplicator);
+                        cnt = 0;
+                        while(!lineStack.isEmpty() && cnt < 5){
+                            headers = lineStack.pop();
+                            plots = headers.replace(",",".").split("\t");
+                            for(int i = 1; i < (plots.length/2)+1; i++)
+                            {
+                                offset = Double.parseDouble(plots[0]);
+                                enclousureLists.get(i-1).addTime(Double.parseDouble(plots[0])-offset);
+                                enclousureLists.get(i-1).addMin(Double.parseDouble(plots[i*2-1]) * multiplicator);
+                                enclousureLists.get(i-1).addMax(Double.parseDouble(plots[i*2]) * multiplicator);
+                            }
                         }
                     }
                 }
@@ -125,7 +135,7 @@ public class EnclosurePackNew implements ListPackInterface{
             
             plotreader.close();
         }
-        catch(Exception ex)
+        catch(FileNotFoundException | NumberFormatException ex)
         {
             System.err.println(ex.toString());
         }

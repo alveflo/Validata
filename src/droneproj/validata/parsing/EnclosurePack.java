@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Stack;
 
 /**
  *
@@ -37,8 +38,10 @@ public class EnclosurePack implements ListPackInterface{
             //<editor-fold defaultstate="collapsed" desc="sample cropping code">
             if(diff != 0 && plotreader.hasNextLine())
             {
+                Stack<String> lineStack = new Stack<>();
                 boolean trig = false;
                 headers = plotreader.nextLine();
+                lineStack.push(headers);
                 plots = headers.split("\t");
                 double[] firstValues = new double[(plots.length - 1) * 2];
                 
@@ -55,6 +58,7 @@ public class EnclosurePack implements ListPackInterface{
                 while(!trig && plotreader.hasNextLine())
                 {
                     headers = plotreader.nextLine();
+                    lineStack.push(headers);
                     plots = headers.split("\t");
                     cnt = 0;
                     for(int i = 1; i < plots.length;i++)
@@ -70,13 +74,18 @@ public class EnclosurePack implements ListPackInterface{
                     
                     if(trig)
                     {
-                        for(int i = 1; i < plots.length; i++)
-                        {
-                            points = plots[i].replace("[", "").replace("]", "").split(",");
-                            offset = Double.parseDouble(plots[0]);
-                            enclousureLists.get(i-1).addTime(Double.parseDouble(plots[0])-offset);
-                            enclousureLists.get(i-1).addMin(Double.parseDouble(points[0]) * multiplicator);
-                            enclousureLists.get(i-1).addMax(Double.parseDouble(points[1]) * multiplicator);
+                        cnt = 0;
+                        while(!lineStack.isEmpty() && cnt < 5){
+                            headers = lineStack.pop();
+                            plots = headers.split("\t");
+                            for(int i = 1; i < plots.length; i++)
+                            {
+                                points = plots[i].replace("[", "").replace("]", "").split(",");
+                                offset = Double.parseDouble(plots[0]);
+                                enclousureLists.get(i-1).addTime(Double.parseDouble(plots[0])-offset);
+                                enclousureLists.get(i-1).addMin(Double.parseDouble(points[0]) * multiplicator);
+                                enclousureLists.get(i-1).addMax(Double.parseDouble(points[1]) * multiplicator);
+                            }
                         }
                     }
                 }
