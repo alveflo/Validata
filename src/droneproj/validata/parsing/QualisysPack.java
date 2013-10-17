@@ -19,13 +19,14 @@ import java.util.Scanner;
 public class QualisysPack implements ListPackInterface{
     private ArrayList<SinglepointList> QualisysLists;
     
-    public QualisysPack(String fileName, double multiplicator)
+    public QualisysPack(String fileName, double multiplicator, double diff)
     {
         QualisysLists = new ArrayList<>();
         try{
             Scanner plotReader = new Scanner(new BufferedReader(new FileReader(fileName)));
             String nextLine;
             String[] splitLine;
+            double offset = 0;
             do
             {
                 nextLine = plotReader.nextLine();
@@ -35,12 +36,55 @@ public class QualisysPack implements ListPackInterface{
             {
                 QualisysLists.add(new SinglepointList(splitLine[i]));
             }
+            
+                                   
+            //<editor-fold defaultstate="collapsed" desc="sample cropping code">
+            if(diff != 0 && plotReader.hasNextLine())
+            {
+                boolean trig = false;
+                nextLine = plotReader.nextLine();
+                splitLine = nextLine.split("\t");
+                double[] firstValues = new double[(splitLine.length - 1)];
+                
+                /*Sample first values*/
+                for(int i = 1 ; i < splitLine.length;i++)
+                {
+                    firstValues[i-1] = Double.parseDouble(splitLine[i]);
+                }
+                
+                /*filter out unwanted values*/
+                while(!trig && plotReader.hasNextLine())
+                {
+                    nextLine = plotReader.nextLine();
+                    splitLine = nextLine.split("\t");
+                    for(int i = 1; i < splitLine.length;i++)
+                    {
+                        if(Math.abs((Double.parseDouble(splitLine[i]) - firstValues[i-1])) > diff)
+                        {
+                            trig = true;
+                            break;
+                        }
+                    }
+                    
+                    if(trig)
+                    {
+                        offset = Double.parseDouble(splitLine[1]);
+                        for(int i = 2; i < splitLine.length; i++)
+                        {
+                            QualisysLists.get(i-2).addTime(Double.parseDouble(splitLine[1])-offset);
+                            QualisysLists.get(i-2).addValue(Double.parseDouble(splitLine[i]) * multiplicator);
+                        }
+                    }
+                }
+            }
+            //</editor-fold>
+            
             while(plotReader.hasNextLine())
             {
                 splitLine = plotReader.nextLine().split("\t");
                 for(int i = 0; i < QualisysLists.size();i++)
                 {
-                    QualisysLists.get(i).addTime(Double.parseDouble(splitLine[1]));
+                    QualisysLists.get(i).addTime(Double.parseDouble(splitLine[1]) - offset);
                     QualisysLists.get(i).addValue(Double.parseDouble(splitLine[i + 2]) * multiplicator);
                 }
             }
@@ -55,7 +99,7 @@ public class QualisysPack implements ListPackInterface{
     
     public static void main(String [] args)
     {
-        QualisysPack qP = new QualisysPack("C:/Users/Jonas/Dropbox/Java/utvev/Validata/Plot test/src/HeliTestvert.tsv",1);
+        QualisysPack qP = new QualisysPack("C:/Users/Jonas/Dropbox/Java/utvev/Validata/Plot test/src/Drop boll0517_500mm_b.tsv",1,20);
         for(SinglepointList sPL:qP.QualisysLists)
         {
             System.out.println(sPL.getName());

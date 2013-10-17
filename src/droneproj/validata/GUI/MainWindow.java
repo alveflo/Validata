@@ -77,6 +77,8 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         addDataSource_multiplicatorTextField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        addDataSource_diffTrig = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         plotSetupAssignDialog = new javax.swing.JDialog();
         jLabel1 = new javax.swing.JLabel();
@@ -213,6 +215,10 @@ public class MainWindow extends javax.swing.JFrame {
 
         jLabel3.setText("Multiplicator");
 
+        addDataSource_diffTrig.setText("0");
+
+        jLabel4.setText("Difference for trig");
+
         javax.swing.GroupLayout plotSetupAddDataSourceDialogLayout = new javax.swing.GroupLayout(plotSetupAddDataSourceDialog.getContentPane());
         plotSetupAddDataSourceDialog.getContentPane().setLayout(plotSetupAddDataSourceDialogLayout);
         plotSetupAddDataSourceDialogLayout.setHorizontalGroup(
@@ -228,7 +234,12 @@ public class MainWindow extends javax.swing.JFrame {
                                 .addComponent(addDataSource_cancelButton))
                             .addComponent(addDataSource_parserComboBox, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(addDataSource_multiplicatorTextField))
+                        .addGroup(plotSetupAddDataSourceDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addDataSource_multiplicatorTextField)
+                            .addComponent(addDataSource_diffTrig)
+                            .addGroup(plotSetupAddDataSourceDialogLayout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(plotSetupAddDataSourceDialogLayout.createSequentialGroup()
                         .addGroup(plotSetupAddDataSourceDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(addDataSource_filePathLabel)
@@ -264,11 +275,16 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(plotSetupAddDataSourceDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addDataSource_parserComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(addDataSource_multiplicatorTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(plotSetupAddDataSourceDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addDataSource_okButton)
-                    .addComponent(addDataSource_cancelButton))
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(plotSetupAddDataSourceDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(plotSetupAddDataSourceDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(addDataSource_okButton)
+                        .addComponent(addDataSource_cancelButton))
+                    .addGroup(plotSetupAddDataSourceDialogLayout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(2, 2, 2)
+                        .addComponent(addDataSource_diffTrig, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -573,7 +589,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void addDataSource_okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDataSource_okButtonActionPerformed
         //<editor-fold defaultstate="collapsed" desc="Ok kod">
-        dataPackageList.add(new DataPackage(addDataSource_filepathTextField.getText(), addDataSource_multiplicatorTextField.getText(), (Parser)addDataSource_parserComboBox.getSelectedItem()));
+        dataPackageList.add(new DataPackage(addDataSource_filepathTextField.getText(), addDataSource_multiplicatorTextField.getText(), addDataSource_diffTrig.getText(), (Parser)addDataSource_parserComboBox.getSelectedItem()));
         this.plotSetupAddDataSourceDialog.setVisible(false);
         plotSetupDialog_updateList();
         //</editor-fold>
@@ -651,6 +667,7 @@ public class MainWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addDataSource_browseButton;
     private javax.swing.JButton addDataSource_cancelButton;
+    private javax.swing.JTextField addDataSource_diffTrig;
     private javax.swing.JLabel addDataSource_filePathLabel;
     private javax.swing.JTextField addDataSource_filepathTextField;
     private javax.swing.JTextField addDataSource_multiplicatorTextField;
@@ -662,6 +679,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;

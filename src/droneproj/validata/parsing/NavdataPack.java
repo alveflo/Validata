@@ -18,13 +18,14 @@ import java.util.Scanner;
 public class NavdataPack implements ListPackInterface{
     private ArrayList<SinglepointList> NavdataLists;
 
-    public NavdataPack(String fileName, double multiplicator)
+    public NavdataPack(String fileName, double multiplicator,double diff)
     {
         NavdataLists = new ArrayList<>();
         try{
             Scanner plotReader = new Scanner(new BufferedReader(new FileReader(fileName)));
             String nextLine;
             String[] splitLine;
+            double offset = 0;
              do
             {
                 nextLine = plotReader.nextLine();
@@ -36,12 +37,56 @@ public class NavdataPack implements ListPackInterface{
             {
                 NavdataLists.add(new SinglepointList(splitLine[i]));
             }
+            
+                                    
+            //<editor-fold defaultstate="collapsed" desc="sample cropping code">
+            if(diff != 0 && plotReader.hasNextLine())
+            {
+                boolean trig = false;
+                nextLine = plotReader.nextLine();
+                splitLine = nextLine.split("\t");
+                double[] firstValues = new double[(splitLine.length - 3)];
+                
+                /*Sample first values*/
+                for(int i = 3 ; i < splitLine.length;i++)
+                {
+                    firstValues[i-3] = Double.parseDouble(splitLine[i]);
+                }
+                
+                /*filter out unwanted values*/
+                while(!trig && plotReader.hasNextLine())
+                {
+                    nextLine = plotReader.nextLine();
+                    splitLine = nextLine.split("\t");
+                    for(int i = 3; i < splitLine.length;i++)
+                    {
+                        if(Math.abs((Double.parseDouble(splitLine[i]) - firstValues[i-3])) > diff)
+                        {
+                            trig = true;
+                            break;
+                        }
+                    }
+                    
+                    if(trig)
+                    {
+                        offset = Double.parseDouble(splitLine[1]);
+                        for(int i = 3; i < splitLine.length; i++)
+                        {
+                            NavdataLists.get(i-3).addTime(Double.parseDouble(splitLine[1])-offset);
+                            NavdataLists.get(i-3).addValue(Double.parseDouble(splitLine[i]) * multiplicator);
+                        }
+                    }
+                }
+            }
+            //</editor-fold>
+            
+            
             while(plotReader.hasNextLine())
             {
                 splitLine = plotReader.nextLine().split("\t");
                 for(int i = 0; i < NavdataLists.size();i++)
                 {
-                    NavdataLists.get(i).addTime(Double.parseDouble(splitLine[1])/1000);
+                    NavdataLists.get(i).addTime((Double.parseDouble(splitLine[1])-offset)/1000);
                     NavdataLists.get(i).addValue(Double.parseDouble(splitLine[i + 3])); // extra padding because of the placement of data in the navdata output
                 }
             }
@@ -75,7 +120,7 @@ public class NavdataPack implements ListPackInterface{
     
     public static void main(String [] args)
     {                                       //C:\Users\Jonas\Dropbox\Utvecklingsprojekt\Data\Labbfiler\Test av köring upp&ner\Navdata\Mätning 1_1
-        NavdataPack qP = new NavdataPack("C:\\Users\\Jonas\\Dropbox\\Utvecklingsprojekt\\Data\\Labbfiler\\Test av köring upp&ner\\Navdata\\Mätning 1_1\\Attitude TEST1.txt",1);
+        NavdataPack qP = new NavdataPack("C:\\Users\\Jonas\\Dropbox\\Utvecklingsprojekt\\Data\\Labbfiler\\Test av köring upp&ner\\Navdata\\Mätning 1_1\\Attitude TEST1.txt",1,10);
         for(SinglepointList sPL:qP.NavdataLists)
         {
             System.out.println(sPL.getName());

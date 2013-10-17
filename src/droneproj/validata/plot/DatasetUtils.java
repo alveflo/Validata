@@ -32,13 +32,38 @@ public class DatasetUtils {
     
     public static XYSeries[] createSinglepointDataset(ListInterface[] sLArray)
     {
+        int [] names = new int[sLArray.length];
+        boolean safetyMode = false;
+        /*
+         * Single point list nametest
+         */
+        for (ListInterface sl : sLArray)
+        {
+            for(int i = 0; i < sLArray.length;i++)
+            {
+                if(sl.getName().equalsIgnoreCase(sLArray[i].getName()))
+                {
+                    names[i]++;
+                }
+            }
+        }
+        for(int n:names)
+        {
+            if(n > 1)
+            {
+                safetyMode = true;
+                break;
+            }
+        }
+        
+        
         XYSeries[] xySeries = new XYSeries[sLArray.length];
         
         int x = 0;
         String name = "";
         for (ListInterface sl : sLArray)
         {
-            name = (sl.getName() == null) ? "INPUT" + (x+1) : sl.getName();
+            name = (sl.getName() == null || safetyMode) ? "INPUT" + (x+1) : sl.getName();
             xySeries[x] = new XYSeries(name);
             ArrayList<Double> datapoints = sl.getDataPoints()[1];
             for (int i=0;i<sl.getSize();i++)

@@ -18,11 +18,12 @@ public class DataPackage {
     private String filename;
     private String name;
     private double multiplicator;
+    private double diff;
     private ListPackInterface listPack;
     private int plotID;
     private Parser parser;
     
-    public DataPackage(String filename, String multiplicator, Parser parser)
+    public DataPackage(String filename, String multiplicator, String diff, Parser parser)
     {
         this.filename = filename; 
         this.parser = parser;
@@ -32,6 +33,14 @@ public class DataPackage {
         catch(NumberFormatException e)
         {
             this.multiplicator = 1.0;
+            System.err.println(e.toString());
+        }
+        try{
+            this.diff = Double.parseDouble(diff);
+        }
+        catch(NumberFormatException e)
+        {
+            this.diff = 0;
             System.err.println(e.toString());
         }
         String [] split = filename.split("\\\\");
@@ -44,19 +53,19 @@ public class DataPackage {
         switch (this.parser)
         {
             case ACUMEN_ENCLOSURE:
-                this.listPack = new EnclosurePack(this.filename, multiplicator);
+                this.listPack = new EnclosurePack(this.filename, multiplicator,diff);
                 break;
             case ACUMEN_ENCLOSURE_V2:
-                this.listPack = new EnclosurePackNew(this.filename, multiplicator);
+                this.listPack = new EnclosurePackNew(this.filename, multiplicator,diff);
                 break;
             case ACUMEN_FLOATING_POINT:
-                this.listPack = new AcumenSinglePointPack(this.filename, multiplicator);
+                this.listPack = new AcumenSinglePointPack(this.filename, multiplicator,diff);
                 break;
             case QUALISYS_MOTION_DATA:
-                this.listPack = new QualisysPack(this.filename, multiplicator);
+                this.listPack = new QualisysPack(this.filename, multiplicator,diff);
                 break;
             case NAVDATA:
-                this.listPack = new NavdataPack(this.filename, multiplicator);
+                this.listPack = new NavdataPack(this.filename, multiplicator,diff);
                 break;
             default:
                 break;
