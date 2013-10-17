@@ -19,7 +19,7 @@ import java.util.Scanner;
 public class QualisysPack implements ListPackInterface{
     private ArrayList<SinglepointList> QualisysLists;
     
-    public QualisysPack(String fileName)
+    public QualisysPack(String fileName, double multiplicator)
     {
         QualisysLists = new ArrayList<>();
         try{
@@ -41,7 +41,7 @@ public class QualisysPack implements ListPackInterface{
                 for(int i = 0; i < QualisysLists.size();i++)
                 {
                     QualisysLists.get(i).addTime(Double.parseDouble(splitLine[1]));
-                    QualisysLists.get(i).addValue(Double.parseDouble(splitLine[i + 2]));
+                    QualisysLists.get(i).addValue(Double.parseDouble(splitLine[i + 2]) * multiplicator);
                 }
             }
             
@@ -55,7 +55,7 @@ public class QualisysPack implements ListPackInterface{
     
     public static void main(String [] args)
     {
-        QualisysPack qP = new QualisysPack("C:/Users/Jonas/Dropbox/Java/utvev/Validata/Plot test/src/HeliTestvert.tsv");
+        QualisysPack qP = new QualisysPack("C:/Users/Jonas/Dropbox/Java/utvev/Validata/Plot test/src/HeliTestvert.tsv",1);
         for(SinglepointList sPL:qP.QualisysLists)
         {
             System.out.println(sPL.getName());

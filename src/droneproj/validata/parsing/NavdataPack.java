@@ -18,7 +18,7 @@ import java.util.Scanner;
 public class NavdataPack implements ListPackInterface{
     private ArrayList<SinglepointList> NavdataLists;
 
-    public NavdataPack(String fileName)
+    public NavdataPack(String fileName, double multiplicator)
     {
         NavdataLists = new ArrayList<>();
         try{
@@ -75,7 +75,7 @@ public class NavdataPack implements ListPackInterface{
     
     public static void main(String [] args)
     {                                       //C:\Users\Jonas\Dropbox\Utvecklingsprojekt\Data\Labbfiler\Test av köring upp&ner\Navdata\Mätning 1_1
-        NavdataPack qP = new NavdataPack("C:\\Users\\Jonas\\Dropbox\\Utvecklingsprojekt\\Data\\Labbfiler\\Test av köring upp&ner\\Navdata\\Mätning 1_1\\Attitude TEST1.txt");
+        NavdataPack qP = new NavdataPack("C:\\Users\\Jonas\\Dropbox\\Utvecklingsprojekt\\Data\\Labbfiler\\Test av köring upp&ner\\Navdata\\Mätning 1_1\\Attitude TEST1.txt",1);
         for(SinglepointList sPL:qP.NavdataLists)
         {
             System.out.println(sPL.getName());

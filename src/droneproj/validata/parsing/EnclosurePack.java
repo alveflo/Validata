@@ -15,7 +15,7 @@ import java.util.Scanner;
 public class EnclosurePack implements ListPackInterface{
     private ArrayList<EnclosureList> enclousureLists;
     
-    public EnclosurePack(String fileName){
+    public EnclosurePack(String fileName,double multiplicator){
         enclousureLists = new ArrayList<>();
         try{
             Scanner plotreader = new Scanner (new BufferedReader(new FileReader(fileName)));
@@ -33,8 +33,8 @@ public class EnclosurePack implements ListPackInterface{
                 {
                     points = plots[i].replace("[", "").replace("]", "").split(",");
                     enclousureLists.get(i-1).addTime(Double.parseDouble(plots[0]));
-                    enclousureLists.get(i-1).addMin(Double.parseDouble(points[0]));
-                    enclousureLists.get(i-1).addMax(Double.parseDouble(points[1]));
+                    enclousureLists.get(i-1).addMin(Double.parseDouble(points[0]) * multiplicator);
+                    enclousureLists.get(i-1).addMax(Double.parseDouble(points[1]) * multiplicator);
                 }
             }
             plotreader.close();
@@ -55,7 +55,7 @@ public class EnclosurePack implements ListPackInterface{
     
     public static void main(String [] args)
     {
-        EnclosurePack ab = new EnclosurePack("C:/Users/Jonas/Dropbox/Java/utvev/Validata/Plot test/src/Table");
+        EnclosurePack ab = new EnclosurePack("C:/Users/Jonas/Dropbox/Java/utvev/Validata/Plot test/src/Table",1);
         for(EnclosureList eL:ab.getEnclousureLists())
         {
             System.out.println("\n" +  eL.getName());

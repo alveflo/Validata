@@ -18,7 +18,7 @@ import java.util.Scanner;
 public class EnclosurePackNew implements ListPackInterface{
     private ArrayList<EnclosureList> enclousureLists;
     
-    public EnclosurePackNew(String fileName){
+    public EnclosurePackNew(String fileName, double multiplicator){
         enclousureLists = new ArrayList<>();
         try{
             Scanner plotreader = new Scanner (new BufferedReader(new FileReader(fileName)));
@@ -36,8 +36,8 @@ public class EnclosurePackNew implements ListPackInterface{
                 for(int i = 1; i < (plots.length/2)+1;i++)
                 {
                     enclousureLists.get(i-1).addTime(Double.parseDouble(plots[0]));
-                    enclousureLists.get(i-1).addMin(Double.parseDouble(plots[i*2-1]));
-                    enclousureLists.get(i-1).addMax(Double.parseDouble(plots[i*2]));
+                    enclousureLists.get(i-1).addMin(Double.parseDouble(plots[i*2-1]) * multiplicator);
+                    enclousureLists.get(i-1).addMax(Double.parseDouble(plots[i*2])  * multiplicator);
                 }
             }
             plotreader.close();
@@ -58,7 +58,7 @@ public class EnclosurePackNew implements ListPackInterface{
     
     public static void main(String [] args)
     {
-        droneproj.validata.parsing.EnclosurePack ab = new droneproj.validata.parsing.EnclosurePack("C:/Users/Jonas/Dropbox/Java/utvev/Validata/Plot test/src/Table");
+        droneproj.validata.parsing.EnclosurePack ab = new droneproj.validata.parsing.EnclosurePack("C:/Users/Jonas/Dropbox/Java/utvev/Validata/Plot test/src/Table",1);
         for(EnclosureList eL:ab.getEnclousureLists())
         {
             System.out.println("\n" +  eL.getName());

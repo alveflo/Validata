@@ -19,7 +19,7 @@ import java.util.Scanner;
 public class AcumenSinglePointPack implements ListPackInterface {
        private ArrayList<SinglepointList> AcumenLists;
     
-    public AcumenSinglePointPack(String fileName)
+    public AcumenSinglePointPack(String fileName, double multiplicator)
     {
         AcumenLists = new ArrayList<>();
         try{
@@ -40,7 +40,7 @@ public class AcumenSinglePointPack implements ListPackInterface {
                 for(int i = 0; i < AcumenLists.size();i++)
                 {
                     AcumenLists.get(i).addTime(Double.parseDouble(splitLine[1]));
-                    AcumenLists.get(i).addValue(Double.parseDouble(splitLine[i]));
+                    AcumenLists.get(i).addValue(Double.parseDouble(splitLine[i]) * multiplicator);
                 }
             }
             
@@ -54,7 +54,7 @@ public class AcumenSinglePointPack implements ListPackInterface {
     
     public static void main(String [] args)
     {
-        AcumenSinglePointPack qP = new AcumenSinglePointPack("C:\\Users\\Jonas\\Desktop\\klar.txt");
+        AcumenSinglePointPack qP = new AcumenSinglePointPack("C:\\Users\\Jonas\\Desktop\\klar.txt",1);
         for(SinglepointList sPL:qP.getAcumenLists())
         {
             System.out.println(sPL.getName());

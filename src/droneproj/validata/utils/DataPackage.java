@@ -17,14 +17,23 @@ import droneproj.validata.parsing.QualisysPack;
 public class DataPackage {
     private String filename;
     private String name;
+    private double multiplicator;
     private ListPackInterface listPack;
     private int plotID;
     private Parser parser;
     
-    public DataPackage(String filename, Parser parser)
+    public DataPackage(String filename, String multiplicator, Parser parser)
     {
         this.filename = filename; 
         this.parser = parser;
+        try{
+            this.multiplicator = Double.parseDouble(multiplicator);
+        }
+        catch(NumberFormatException e)
+        {
+            this.multiplicator = 1.0;
+            System.err.println(e.toString());
+        }
         String [] split = filename.split("\\\\");
         name = split[split.length-1];
         constructDataPack();
@@ -35,19 +44,19 @@ public class DataPackage {
         switch (this.parser)
         {
             case ACUMEN_ENCLOSURE:
-                this.listPack = new EnclosurePack(this.filename);
+                this.listPack = new EnclosurePack(this.filename, multiplicator);
                 break;
             case ACUMEN_ENCLOSURE_V2:
-                this.listPack = new EnclosurePackNew(this.filename);
+                this.listPack = new EnclosurePackNew(this.filename, multiplicator);
                 break;
             case ACUMEN_FLOATING_POINT:
-                this.listPack = new AcumenSinglePointPack(this.filename);
+                this.listPack = new AcumenSinglePointPack(this.filename, multiplicator);
                 break;
             case QUALISYS_MOTION_DATA:
-                this.listPack = new QualisysPack(this.filename);
+                this.listPack = new QualisysPack(this.filename, multiplicator);
                 break;
             case NAVDATA:
-                this.listPack = new NavdataPack(this.filename);
+                this.listPack = new NavdataPack(this.filename, multiplicator);
                 break;
             default:
                 break;
