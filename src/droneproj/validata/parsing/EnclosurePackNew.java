@@ -24,7 +24,6 @@ public class EnclosurePackNew implements ListPackInterface{
             Scanner plotreader = new Scanner (new BufferedReader(new FileReader(fileName)));
             String headers = plotreader.nextLine();
             String [] plots = headers.split("\t");
-            String [] points;
             double offset = 0;
             for(int i = 1; i < plots.length;i = i +2)
             {
@@ -36,29 +35,26 @@ public class EnclosurePackNew implements ListPackInterface{
             {
                 boolean trig = false;
                 headers = plotreader.nextLine();
-                plots = headers.split("\t");
+                plots = headers.replace(",",".").split("\t");
                 double[] firstValues = new double[(plots.length - 1) * 2];
+                int cnt = 0;
                 
                 /*Sample first values*/
-                int cnt = 0;
                 for(int i = 1 ; i < plots.length;i++)
                 {
-                    points = plots[i].replace("[", "").replace("]", "").split(",");
-                    firstValues[cnt++] = Double.parseDouble(points[0]);
-                    firstValues[cnt++] = Double.parseDouble(points[1]);
+                    firstValues[i-1] = Double.parseDouble(plots[i]);
                 }
                 
                 /*filter out unwanted values*/
                 while(!trig && plotreader.hasNextLine())
                 {
                     headers = plotreader.nextLine();
-                    plots = headers.split("\t");
+                    plots = headers.replace(",", ".").split("\t");
                     cnt = 0;
                     for(int i = 1; i < plots.length;i++)
                     {
-                        points = plots[i].replace("[", "").replace("]", "").split(",");
-                        if(Math.abs((Double.parseDouble(points[0]) - firstValues[cnt++])) > diff ||
-                               Math.abs((Double.parseDouble(points[1]) - firstValues[cnt++])) > diff)
+                        if(Math.abs((Double.parseDouble(plots[i]) - firstValues[cnt++])) > diff ||
+                               Math.abs((Double.parseDouble(plots[i]) - firstValues[cnt++])) > diff)
                         {
                             trig = true;
                             break;
@@ -67,13 +63,12 @@ public class EnclosurePackNew implements ListPackInterface{
                     
                     if(trig)
                     {
-                        for(int i = 1; i < plots.length; i++)
+                        for(int i = 1; i < (plots.length/2)+1; i++)
                         {
-                            points = plots[i].replace("[", "").replace("]", "").split(",");
                             offset = Double.parseDouble(plots[0]);
                             enclousureLists.get(i-1).addTime(Double.parseDouble(plots[0])-offset);
-                            enclousureLists.get(i-1).addMin(Double.parseDouble(points[0]) * multiplicator);
-                            enclousureLists.get(i-1).addMax(Double.parseDouble(points[1]) * multiplicator);
+                            enclousureLists.get(i-1).addMin(Double.parseDouble(plots[i*2-1]) * multiplicator);
+                            enclousureLists.get(i-1).addMax(Double.parseDouble(plots[i*2]) * multiplicator);
                         }
                     }
                 }
@@ -146,7 +141,7 @@ public class EnclosurePackNew implements ListPackInterface{
     
     public static void main(String [] args)
     {
-        EnclosurePackNew ab = new EnclosurePackNew("C:\\Users\\Jonas\\Dropbox\\Utvecklingsprojekt\\Data\\Validering_Markör\\Acumen\\Acumen_Marker_50cm",1,0,false);
+        EnclosurePackNew ab = new EnclosurePackNew("C:\\Users\\Jonas\\Dropbox\\Utvecklingsprojekt\\Data\\Validering_Markör\\Acumen\\Acumen_Marker_50cm",1,0.003,true);
         for(EnclosureList eL:ab.getEnclousureLists())
         {
             System.out.println("\n" +  eL.getName());
