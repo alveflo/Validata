@@ -66,7 +66,7 @@ public class NavdataPack implements ListPackInterface{
                             break;
                         }
                     }
-                    
+                    //TODO fix this for backtrack
                     if(trig)
                     {
                         offset = Double.parseDouble(splitLine[1]);

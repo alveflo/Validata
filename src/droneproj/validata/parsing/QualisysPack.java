@@ -82,6 +82,7 @@ public class QualisysPack implements ListPackInterface{
                                 QualisysLists.get(i-2).addTime(Double.parseDouble(splitLine[1])-offset);
                                 QualisysLists.get(i-2).addValue(Double.parseDouble(splitLine[i]) * multiplicator);
                             }
+                            cnt++;
                         }
                     }
                 }

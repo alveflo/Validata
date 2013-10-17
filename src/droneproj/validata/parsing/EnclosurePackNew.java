@@ -79,6 +79,7 @@ public class EnclosurePackNew implements ListPackInterface{
                                 enclousureLists.get(i-1).addMin(Double.parseDouble(plots[i*2-1]) * multiplicator);
                                 enclousureLists.get(i-1).addMax(Double.parseDouble(plots[i*2]) * multiplicator);
                             }
+                            cnt++;
                         }
                     }
                 }

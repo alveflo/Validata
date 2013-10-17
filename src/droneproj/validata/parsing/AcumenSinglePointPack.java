@@ -80,6 +80,7 @@ public class AcumenSinglePointPack implements ListPackInterface {
                                 AcumenLists.get(i-2).addTime(Double.parseDouble(splitLine[1])-offset);
                                 AcumenLists.get(i-2).addValue(Double.parseDouble(splitLine[i]) * multiplicator);
                             }
+                            cnt++;
                         }
                     }
                 }
